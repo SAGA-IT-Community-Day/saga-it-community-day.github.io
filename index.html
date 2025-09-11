@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="{{ page.lang | default: 'ja' }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ page.description }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="#">SITCD</a>
+        <nav class="nav">
+          <a href="#about">概要</a>
+          <a href="#schedule">スケジュール</a>
+          <a href="#venue">会場</a>
+          <a href="#speakers">登壇者</a>
+          <a href="#staff">運営</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact" class="btn btn--nav">お問い合わせ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <p class="eyebrow">Saga IT Community Day 2026</p>
+          <h1 class="hero__title">佐賀のITコミュニティが集う2日間</h1>
+          <p class="hero__meta">Day1 2026年2月21日 / Day2 2026年2月22日</p>
+          <p class="hero__venue">会場：こねくり家（佐賀市）</p>
+          <div class="hero__ctas">
+            <a href="#register" class="btn btn--primary">参加登録</a>
+            <a href="#schedule" class="btn btn--ghost">タイムテーブル</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container grid grid--2">
+          <div>
+            <h2 class="section__title">開催概要</h2>
+            <ul class="list">
+              <li><strong>日時：</strong>2026年2月21日–22日</li>
+              <li><strong>会場：</strong>こねくり家（佐賀市）</li>
+              <li><strong>参加費：</strong>未定</li>
+              <li><strong>主催：</strong>Saga IT Community</li>
+            </ul>
+            <p class="note">詳細な参加方法・注意事項は後日ご案内します。</p>
+          </div>
+          
+        </div>
+      </section>
+
+      <section id="schedule" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">スケジュール（概要）</h2>
+          <div class="cards">
+            <article class="card">
+              <h3 class="card__eyebrow">Day1</h3>
+              <h4 class="card__title">交流・展示・コミュニティ紹介</h4>
+              <p class="card__meta">会場：メイン＝こねくり家、サブ＝旧古賀家</p>
+              <ul class="list">
+                <li>11:00 開会・オープニング / 開場</li>
+                <li>11:10–12:00 コミュニティ紹介（前半）</li>
+                <li>13:00–15:30 コミュニティ紹介（後半）＋ハンズオン</li>
+                <li>15:30–16:00 まとめ・クロージング</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3 class="card__eyebrow">Day2</h3>
+              <h4 class="card__title">アイデアソン＋交流</h4>
+              <ul class="list">
+                <li>13:00–13:30 受付・オープニング</li>
+                <li>13:30–13:50 趣旨説明・インプット</li>
+                <li>13:50–15:30 アイデア創出・ブラッシュアップ</li>
+                <li>15:30–16:30 成果発表</li>
+              </ul>
+            </article>
+          </div>
+          <p class="section__action"><a href="#" class="btn btn--ghost">詳細なタイムテーブル</a></p>
+        </div>
+      </section>
+
+      <section id="venue" class="section">
+        <div class="container grid grid--2">
+          <div>
+            <h2 class="section__title">会場案内</h2>
+            <p>会場は「こねくり家」。古民家をリノベーションした空間で、電源・Wi‑Fiを備え、イベント・ワークショップの開催も可能です。</p>
+            <p><a class="link" href="https://conekuriya.com/" target="_blank" rel="noopener">こねくり家 公式サイト</a></p>
+          </div>
+          <div class="card">
+            <h3 class="card__title">アクセス</h3>
+            <p>佐賀県佐賀市 柳町エリア（詳細は後日掲載）</p>
+            <p class="note">交通手段・駐車場情報は現在調整中です。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="speakers" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">登壇者（準備中）</h2>
+          <p>登壇者情報は後日公開します。</p>
+        </div>
+      </section>
+
+      <section id="staff" class="section">
+        <div class="container">
+          <h2 class="section__title">運営スタッフ（準備中）</h2>
+          <p>運営スタッフの一覧と役割を掲載予定です。</p>
+        </div>
+      </section>
+
+      <section id="faq" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">よくある質問</h2>
+          <details class="faq"><summary>参加登録はいつ開始しますか？</summary><p>スピーカー決定後、順次ご案内します。</p></details>
+          <details class="faq"><summary>Wi‑Fiは利用できますか？</summary><p>会場内でご利用いただけます。詳細は当日ご案内します。</p></details>
+        </div>
+      </section>
+
+      <section id="contact" class="section section--highlight">
+        <div class="container">
+          <h2 class="section__title">お問い合わせ</h2>
+          <p>ご質問・ご相談はフォームよりお寄せください。</p>
+          <p class="section__action"><a href="#" class="btn btn--primary">お問い合わせフォーム</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="small">© 2026 Saga IT Community Day</p>
+      </div>
+    </footer>
+  </body>
+  </html>

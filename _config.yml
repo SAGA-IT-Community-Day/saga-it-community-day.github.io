@@ -1,0 +1,14 @@
+title: Saga IT Community Day
+description: Saga IT Community Day 2026 のランディングページ（サンプル）。
+lang: ja
+url: https://saga-it-community-day.github.io
+# Project Pages の場合は "/<repo-name>" を設定してください
+baseurl: ""
+
+# 明示的にテーマやプラグインは使わない
+theme: null
+plugins: []
+
+exclude:
+  - LICENSE
+  - README.md
