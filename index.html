@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ page.title }}</title>
-    <meta name="description" content="{{ page.description }}" />
+    <title>SAGA IT Community Day</title>
+    <meta name="description" content="佐賀県下で活動しているITコミュニティ（SAGA IT Community : https://www.saga-smart.jp/community/  ）で活動しているコミュニティ有志で企画しています。" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
@@ -68,6 +68,16 @@
               element.textContent = text;
             }
           });
+          
+          // メタディスクリプションの更新
+          const metaDescription = document.querySelector('meta[name="description"]');
+          if (metaDescription) {
+            if (lang === 'ja') {
+              metaDescription.setAttribute('content', '佐賀県下で活動しているITコミュニティ（SAGA IT Community : https://www.saga-smart.jp/community/  ）で活動しているコミュニティ有志で企画しています。');
+            } else {
+              metaDescription.setAttribute('content', 'This event is being planned by volunteers from the SAGA IT Community ( https://www.saga-smart.jp/community/), an IT community active in Saga Prefecture.');
+            }
+          }
         }
         
         // 初期化
@@ -209,7 +219,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p class="small">© 2026 Saga IT Community Day</p>
+        <p class="small">© 2026 Saga IT Community Day Committee</p>
       </div>
     </footer>
   </body>
