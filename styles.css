@@ -170,3 +170,207 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   font-size: 16px;
 }
 
+/* 会場案内のスタイル */
+.venue-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.venue-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.venue-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--color-primary);
+}
+
+.venue-card__description {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.venue-card__address {
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0 0 12px;
+}
+
+.map-container {
+  margin-top: 32px;
+}
+
+.map-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--color-text);
+}
+
+.map-wrapper {
+  margin-bottom: 12px;
+}
+
+.map-note {
+  text-align: center;
+  margin: 0;
+}
+
+.map-note a {
+  color: var(--color-link);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.map-note a:hover {
+  text-decoration: underline;
+}
+
+/* ダークモード用の会場案内スタイル */
+[data-theme="dark"] .venue-card {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .venue-card__title {
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .venue-card__address {
+  color: var(--color-accent);
+}
+
+/* 開催概要のスタイル */
+.event-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.overview-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.overview-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 8px;
+}
+
+.event-details {
+  background: var(--color-muted);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-top: 24px;
+}
+
+/* ダークモード用の開催概要スタイル */
+[data-theme="dark"] .overview-card {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .overview-card__title {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+[data-theme="dark"] .event-details {
+  background: var(--color-muted);
+}
+
+/* 参加コミュニティ紹介のスタイル */
+.communities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.community-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.community-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+.community-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--color-primary);
+}
+
+.community-card__description {
+  margin: 0 0 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.community-card__links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.community-card__links .link {
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--color-muted);
+  transition: background-color 0.2s ease;
+}
+
+.community-card__links .link:hover {
+  background: var(--color-primary);
+  color: #222;
+  text-decoration: none;
+}
+
+/* ダークモード用の参加コミュニティ紹介スタイル */
+[data-theme="dark"] .community-card {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .community-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+
+[data-theme="dark"] .community-card__title {
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .community-card__links .link {
+  background: var(--color-muted);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .community-card__links .link:hover {
+  background: var(--color-primary);
+  color: #222;
+}
+
