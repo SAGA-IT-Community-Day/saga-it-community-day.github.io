@@ -55,6 +55,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 0;
+  gap: 12px;
 }
 .brand {
   font-weight: 800;
@@ -605,6 +606,94 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   color: var(--color-text);
 }
 
+/* 閲覧者数表示（左側固定の吹き出し） */
+.viewer-count-bubble {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 200px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  animation: fadeIn 0.5s ease-in;
+}
+
+.viewer-count-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--color-primary);
+}
+
+.viewer-count-bubble::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--color-bg);
+}
+
+.viewer-count-text {
+  display: block;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] .viewer-count-bubble {
+  background: var(--color-bg);
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .viewer-count-bubble::after {
+  border-right-color: var(--color-bg);
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .viewer-count-bubble {
+    left: 10px;
+    max-width: 160px;
+    font-size: 0.75rem;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .viewer-count-bubble {
+    display: none; /* 小さい画面では非表示 */
+  }
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
   .person-cards {
@@ -619,6 +708,186 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   
   .person-card__name {
     font-size: 16px;
+  }
+}
+
+/* マウスポインタを星に変更 */
+* {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23e0bc40" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>') 12 12, auto;
+}
+
+/* カーソル追従エフェクト */
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease, transform 0.1s ease;
+}
+
+.cursor-trail.sparkle {
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  box-shadow: 0 0 8px var(--color-primary), 0 0 16px var(--color-primary);
+  animation: sparkle 0.5s ease-out forwards;
+}
+
+.cursor-trail.click {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  box-shadow: 0 0 12px var(--color-primary), 0 0 24px var(--color-primary);
+  animation: clickFlash 0.6s ease-out forwards;
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+@keyframes clickFlash {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.5);
+  }
+}
+
+/* キャラクター（佐賀ナイト） */
+.saga-knight {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 80px;
+  height: 80px;
+  z-index: 998;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s ease;
+}
+
+.saga-knight:hover {
+  transform: scale(1.1);
+}
+
+.saga-knight.clicked {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+}
+
+.saga-knight__sprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--color-accent);
+  background: var(--color-primary);
+  padding: 4px;
+}
+
+/* イベント期間限定キャラクター */
+.saga-knight.event-limited .saga-knight__sprite {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff6b6b 100%);
+  animation: glow 2s ease-in-out infinite alternate;
+  border-color: var(--color-primary);
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 4px 12px rgba(224, 188, 64, 0.5);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(224, 188, 64, 0.8), 0 0 30px rgba(255, 107, 107, 0.5);
+  }
+}
+
+/* クリック時の☆表示 */
+.click-star {
+  position: fixed;
+  font-size: 24px;
+  color: var(--color-primary);
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+  text-shadow: 0 0 8px var(--color-primary), 0 0 16px var(--color-primary);
+  animation: starAppear 0.5s ease-out forwards, starFloat 3s ease-in-out 0.5s infinite;
+  user-select: none;
+}
+
+.click-star.show {
+  opacity: 1;
+}
+
+@keyframes starAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(360deg);
+  }
+}
+
+@keyframes starFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px) scale(1.05);
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .saga-knight {
+    width: 60px;
+    height: 60px;
+    right: 15px;
+    bottom: 15px;
+  }
+  
+  .click-star {
+    font-size: 20px;
+  }
+  
+  /* モバイルではカーソルエフェクトを軽量化 */
+  .cursor-trail {
+    display: none;
   }
 }
 
