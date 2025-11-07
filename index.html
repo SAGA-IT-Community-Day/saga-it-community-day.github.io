@@ -80,6 +80,33 @@
           }
         }
         
+        // コミュニティ表示切り替え機能
+        window.toggleCommunityView = function(viewType) {
+          const grid = document.getElementById('communities-grid');
+          const cardBtn = document.getElementById('view-card-btn');
+          const listBtn = document.getElementById('view-list-btn');
+          
+          if (viewType === 'list') {
+            grid.classList.add('communities-list');
+            grid.classList.remove('communities-grid');
+            if (cardBtn) cardBtn.classList.remove('active');
+            if (listBtn) listBtn.classList.add('active');
+            localStorage.setItem('communityView', 'list');
+          } else {
+            grid.classList.remove('communities-list');
+            grid.classList.add('communities-grid');
+            if (cardBtn) cardBtn.classList.add('active');
+            if (listBtn) listBtn.classList.remove('active');
+            localStorage.setItem('communityView', 'card');
+          }
+        };
+        
+        // コミュニティ表示の初期化
+        const savedView = localStorage.getItem('communityView') || 'card';
+        if (savedView === 'list') {
+          setTimeout(() => window.toggleCommunityView('list'), 100);
+        }
+        
         // 初期化
         updateThemeButton();
         updateLanguageButton();
@@ -240,7 +267,17 @@
           <h2 class="section__title" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</h2>
           <p data-ja="佐賀県下で活動しているITコミュニティが集まります。各コミュニティの活動内容や特徴をご紹介します。" data-en="IT communities active in Saga Prefecture will gather. We will introduce the activities and characteristics of each community.">佐賀県下で活動しているITコミュニティが集まります。各コミュニティの活動内容や特徴をご紹介します。</p>
           
-          <div class="communities-grid">
+          <div class="community-view-toggle">
+            <span data-ja="表示形式：" data-en="View: ">表示形式：</span>
+            <button id="view-card-btn" class="btn btn--ghost btn--view-toggle active" onclick="toggleCommunityView('card')">
+              <span data-ja="カード" data-en="Card">カード</span>
+            </button>
+            <button id="view-list-btn" class="btn btn--ghost btn--view-toggle" onclick="toggleCommunityView('list')">
+              <span data-ja="リスト" data-en="List">リスト</span>
+            </button>
+          </div>
+          
+          <div id="communities-grid" class="communities-grid">
             <div class="community-card">
               <h3 class="community-card__title">ALL-IN GAS</h3>
               <p class="community-card__description" data-ja="Google Apps Script（GAS）を活用した業務効率化や自動化について学ぶコミュニティです。初心者から上級者まで、GASの可能性を一緒に探求していきます。" data-en="A community focused on learning about business efficiency and automation using Google Apps Script (GAS). We explore the possibilities of GAS together, from beginners to advanced users.">Google Apps Script（GAS）を活用した業務効率化や自動化について学ぶコミュニティです。初心者から上級者まで、GASの可能性を一緒に探求していきます。</p>

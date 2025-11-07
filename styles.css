@@ -374,3 +374,68 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   color: #222;
 }
 
+/* コミュニティ表示切り替えボタン */
+.community-view-toggle {
+  margin: 20px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn--view-toggle {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.community-view-toggle .btn.active {
+  background: var(--color-primary);
+  color: #222;
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .community-view-toggle .btn.active {
+  background: var(--color-primary);
+  color: #222;
+}
+
+/* リスト型表示 */
+.communities-list {
+  display: block !important;
+  grid-template-columns: none !important;
+}
+
+.communities-list .community-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.communities-list .community-card__title {
+  min-width: 200px;
+  margin: 0;
+  font-size: 18px;
+}
+
+.communities-list .community-card__description {
+  flex: 1;
+  margin: 0 0 12px;
+}
+
+.communities-list .community-card__links {
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .communities-list .community-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .communities-list .community-card__title {
+    min-width: auto;
+  }
+}
+
