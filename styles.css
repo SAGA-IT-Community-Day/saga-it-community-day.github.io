@@ -40,12 +40,15 @@ body {
 
 /* Header */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   background: #fff;
   border-bottom: 1px solid var(--color-border);
   backdrop-filter: blur(6px);
+  width: 100%;
 }
 .site-header .container {
   display: flex;
@@ -62,6 +65,11 @@ body {
 .nav { display: flex; gap: 18px; align-items: center; }
 .nav a { color: var(--color-text); text-decoration: none; font-weight: 600; }
 .nav a:hover { color: var(--color-link); }
+
+/* Main content - ヘッダーの下にコンテンツが隠れないように */
+main {
+  padding-top: 60px;
+}
 
 /* Hero */
 .hero {
@@ -111,6 +119,20 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
 .btn--ghost:hover { border-color: var(--color-text); }
 .btn--nav { border-color: var(--color-primary); color: var(--color-text); }
 .btn--nav:hover { background: var(--color-primary); }
+.btn--disabled { 
+  opacity: 0.6; 
+  cursor: not-allowed; 
+  pointer-events: none; 
+  background: #ccc; 
+  color: #666; 
+  border-color: #ccc; 
+}
+.btn--disabled:hover { 
+  filter: none; 
+  background: #ccc; 
+  color: #666; 
+  border-color: #ccc; 
+}
 
 /* Links */
 .link { color: var(--color-link); text-decoration: none; }
@@ -151,6 +173,18 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
 [data-theme="dark"] .btn--ghost:hover {
   border-color: var(--color-text);
   background: var(--color-muted);
+}
+
+[data-theme="dark"] .btn--disabled {
+  background: #555;
+  color: #999;
+  border-color: #555;
+}
+
+[data-theme="dark"] .btn--disabled:hover {
+  background: #555;
+  color: #999;
+  border-color: #555;
 }
 
 [data-theme="dark"] details.faq {
@@ -436,6 +470,155 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   
   .communities-list .community-card__title {
     min-width: auto;
+  }
+}
+
+/* 登壇者・スタッフカードのスタイル */
+.person-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.person-card {
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.person-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+.person-card__avatar {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.person-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.person-card__avatar-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text);
+  opacity: 0.5;
+}
+
+.person-card__avatar img + .person-card__avatar-icon {
+  display: none;
+}
+
+.person-card__name {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--color-text);
+}
+
+.person-card__sns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sns-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--color-text);
+  background: var(--color-muted);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.sns-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,.15);
+}
+
+.sns-link--x:hover {
+  background: #000;
+  color: #fff;
+}
+
+.sns-link--facebook:hover {
+  background: #1877f2;
+  color: #fff;
+}
+
+.sns-link--instagram:hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #fff;
+}
+
+.sns-link--linkedin:hover {
+  background: #0a66c2;
+  color: #fff;
+}
+
+/* ダークモード用の登壇者・スタッフカードスタイル */
+[data-theme="dark"] .person-card {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .person-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+
+[data-theme="dark"] .person-card__avatar {
+  background: var(--color-muted);
+}
+
+[data-theme="dark"] .person-card__avatar-icon {
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .sns-link {
+  background: var(--color-muted);
+  color: var(--color-text);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .person-cards {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 24px;
+  }
+  
+  .person-card__avatar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .person-card__name {
+    font-size: 16px;
   }
 }
 

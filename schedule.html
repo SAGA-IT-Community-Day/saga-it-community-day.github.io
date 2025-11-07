@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org; connect-src 'self';">
+    <meta name="copyright" content="© 2026 Saga IT Community Day Committee. All rights reserved.">
     <title>詳細タイムスケジュール - SAGA IT Community Day</title>
     <meta name="description" content="SAGA IT Community Day 2026の詳細なタイムスケジュール" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +12,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <script>
+      // 改ざん防止・著作権保護
+      (function() {
+        'use strict';
+        // 右クリック無効化
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          return false;
+        });
+        // キーボードショートカット無効化（F12, Ctrl+Shift+I, Ctrl+U等）
+        document.addEventListener('keydown', function(e) {
+          // F12
+          if (e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+Shift+I (開発者ツール)
+          if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+Shift+J (コンソール)
+          if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+U (ソース表示)
+          if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+S (保存)
+          if (e.ctrlKey && e.keyCode === 83) {
+            e.preventDefault();
+            return false;
+          }
+        });
+        // 開発者ツール検出（簡易版）
+        let devtools = {open: false, orientation: null};
+        setInterval(function() {
+          if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+            if (!devtools.open) {
+              devtools.open = true;
+              console.clear();
+              console.log('%c警告', 'color: red; font-size: 50px; font-weight: bold;');
+              console.log('%cこのサイトのソースコードを改ざんすることは法律で禁止されています。', 'color: red; font-size: 16px;');
+              console.log('%c© 2026 Saga IT Community Day Committee. All rights reserved.', 'color: #666; font-size: 12px;');
+            }
+          } else {
+            devtools.open = false;
+          }
+        }, 500);
+        // テキスト選択の制限（コピー防止）
+        document.addEventListener('selectstart', function(e) {
+          if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            return false;
+          }
+        });
+      })();
+      
       // テーマとi18nの初期化
       document.addEventListener('DOMContentLoaded', function() {
         // ダークモードの初期化
@@ -368,7 +430,14 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p class="small">© 2026 Saga IT Community Day Committee</p>
+        <div style="margin-bottom: 1rem;">
+          <a href="https://www.youtube.com/@SAGAITCommunityDay-w1j" target="_blank" rel="noopener" style="margin-right: 1rem; color: var(--color-link); text-decoration: none;">YouTube</a>
+          <a href="https://x.com/intent/tweet?text=https://saga-it-community-day.github.io/%20%23sitcd" target="_blank" rel="noopener" style="color: var(--color-link); text-decoration: none;">Xでシェア</a>
+        </div>
+        <p class="small">© 2026 Saga IT Community Day Committee. All rights reserved.</p>
+        <p class="small" style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">
+          本サイトのコンテンツは著作権法により保護されています。無断での複製・改ざん・転載を禁じます。
+        </p>
       </div>
     </footer>
   </body>

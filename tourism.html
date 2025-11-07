@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="{{ page.lang | default: 'ja' }}" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org https://www.youtube.com; connect-src 'self';">
+    <meta name="copyright" content="© 2026 Saga IT Community Day Committee. All rights reserved.">
+    <title>観光情報 - SAGA IT Community Day</title>
+    <meta name="description" content="SAGA IT Community Day 2026開催地・佐賀の観光情報" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // 改ざん防止・著作権保護
+      (function() {
+        'use strict';
+        // 右クリック無効化
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          return false;
+        });
+        // キーボードショートカット無効化（F12, Ctrl+Shift+I, Ctrl+U等）
+        document.addEventListener('keydown', function(e) {
+          // F12
+          if (e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+Shift+I (開発者ツール)
+          if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+Shift+J (コンソール)
+          if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+U (ソース表示)
+          if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+S (保存)
+          if (e.ctrlKey && e.keyCode === 83) {
+            e.preventDefault();
+            return false;
+          }
+        });
+        // 開発者ツール検出（簡易版）
+        let devtools = {open: false, orientation: null};
+        setInterval(function() {
+          if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+            if (!devtools.open) {
+              devtools.open = true;
+              console.clear();
+              console.log('%c警告', 'color: red; font-size: 50px; font-weight: bold;');
+              console.log('%cこのサイトのソースコードを改ざんすることは法律で禁止されています。', 'color: red; font-size: 16px;');
+              console.log('%c© 2026 Saga IT Community Day Committee. All rights reserved.', 'color: #666; font-size: 12px;');
+            }
+          } else {
+            devtools.open = false;
+          }
+        }, 500);
+        // テキスト選択の制限（コピー防止）
+        document.addEventListener('selectstart', function(e) {
+          if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            return false;
+          }
+        });
+      })();
+      
+      // テーマとi18nの初期化
+      document.addEventListener('DOMContentLoaded', function() {
+        // ダークモードの初期化
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // 言語の初期化
+        const savedLang = localStorage.getItem('language') || 'ja';
+        document.documentElement.setAttribute('data-lang', savedLang);
+        
+        // テーマ切り替え機能
+        window.toggleTheme = function() {
+          const currentTheme = document.documentElement.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          updateThemeButton();
+        };
+        
+        // 言語切り替え機能
+        window.toggleLanguage = function() {
+          const currentLang = document.documentElement.getAttribute('data-lang');
+          const newLang = currentLang === 'ja' ? 'en' : 'ja';
+          document.documentElement.setAttribute('data-lang', newLang);
+          localStorage.setItem('language', newLang);
+          updateLanguageButton();
+          updateContent();
+        };
+        
+        // テーマボタンの更新
+        function updateThemeButton() {
+          const theme = document.documentElement.getAttribute('data-theme');
+          const button = document.getElementById('theme-toggle');
+          if (button) {
+            button.textContent = theme === 'light' ? '🌙' : '☀️';
+            button.setAttribute('aria-label', theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え');
+          }
+        }
+        
+        // 言語ボタンの更新
+        function updateLanguageButton() {
+          const lang = document.documentElement.getAttribute('data-lang');
+          const button = document.getElementById('language-toggle');
+          if (button) {
+            button.textContent = lang === 'ja' ? 'EN' : '日本語';
+          }
+        }
+        
+        // コンテンツの更新
+        function updateContent() {
+          const lang = document.documentElement.getAttribute('data-lang');
+          const elements = document.querySelectorAll('[data-ja], [data-en]');
+          elements.forEach(element => {
+            const text = element.getAttribute(`data-${lang}`);
+            if (text) {
+              element.textContent = text;
+            }
+          });
+        }
+        
+        // 初期化
+        updateThemeButton();
+        updateLanguageButton();
+        updateContent();
+      });
+    </script>
+    <style>
+      .tourism-page {
+        padding: 2rem 0;
+      }
+      .tourism-section {
+        margin-bottom: 4rem;
+      }
+      .tourism-section__title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: var(--color-primary);
+      }
+      .tourism-card {
+        background: #fff;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+      }
+      .tourism-card__title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 16px;
+        color: var(--color-primary);
+        border-bottom: 2px solid var(--color-primary);
+        padding-bottom: 8px;
+      }
+      .tourism-card__description {
+        margin: 0 0 20px;
+        line-height: 1.8;
+        color: var(--color-text);
+      }
+      .tourism-card__link {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 10px 20px;
+        background: var(--color-primary);
+        color: #222;
+        text-decoration: none;
+        border-radius: 999px;
+        font-weight: 700;
+        transition: filter 0.2s ease;
+      }
+      .tourism-card__link:hover {
+        filter: brightness(0.95);
+      }
+      .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: var(--radius);
+        margin: 20px 0;
+        box-shadow: var(--shadow);
+      }
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 2rem;
+        color: var(--color-link);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      [data-theme="dark"] .tourism-card {
+        background: var(--color-bg);
+        border-color: var(--color-border);
+      }
+      [data-theme="dark"] .tourism-card__title {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">SITCD</a>
+        <nav class="nav">
+          <a href="index.html#about" data-ja="概要" data-en="About">概要</a>
+          <a href="index.html#schedule" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+          <a href="index.html#venue" data-ja="会場" data-en="Venue">会場</a>
+          <a href="index.html#community" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</a>
+          <a href="index.html#speaker" data-ja="登壇者" data-en="Speakers">登壇者</a>
+          <a href="index.html#staff" data-ja="運営" data-en="Staff">運営</a>
+          <a href="index.html#faq" data-ja="FAQ" data-en="FAQ">FAQ</a>
+          <a href="tourism.html" data-ja="観光" data-en="Tourism">観光</a>
+          <a href="index.html#contact" class="btn btn--nav" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+          <button id="language-toggle" class="btn btn--ghost" onclick="toggleLanguage()">EN</button>
+          <button id="theme-toggle" class="btn btn--ghost" onclick="toggleTheme()" aria-label="ダークモードに切り替え">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tourism-page">
+      <div class="container">
+        <a href="index.html" class="back-link">← トップページに戻る</a>
+        
+        <h1 class="section__title" style="margin-bottom: 2rem;">観光情報</h1>
+        <p style="margin-bottom: 3rem; font-size: 1.1rem; line-height: 1.8;">
+          SAGA IT Community Day 2026の開催地・佐賀には、魅力的な観光スポットがたくさんあります。イベント参加の前後にお立ち寄りください。
+        </p>
+
+        <!-- バルーン -->
+        <section class="tourism-section">
+          <div class="tourism-card">
+            <h2 class="tourism-card__title">佐賀バルーンミュージアム</h2>
+            <div class="tourism-card__description">
+              <p>
+                佐賀バルーンミュージアムは、世界最大級の熱気球イベント「佐賀インターナショナルバルーンフェスタ」の歴史と魅力を紹介する施設です。
+                バルーンの歴史、技術、そして佐賀でのバルーンフェスタの軌跡を、展示や映像を通じて学ぶことができます。
+              </p>
+              <p>
+                <strong>開館時間：</strong>10:00〜17:00（入館は16:30まで）<br>
+                <strong>休館日：</strong>月曜日（祝日の場合は翌日）、年末年始（12月31日～1月1日）<br>
+                <strong>観覧料：</strong>大人 500円、小中高生 200円、小学生未満 無料
+              </p>
+              <p>
+                バルーンに関する展示をしているミュージアムスペースの見学には「観覧料」が必要です。
+                1階ショップや2階カフェのご利用に観覧料は不要です。
+              </p>
+            </div>
+            <a href="https://www.sagabai.com/balloon-museum/main/" class="tourism-card__link" target="_blank" rel="noopener">公式サイトへ</a>
+          </div>
+        </section>
+
+        <!-- ロマンシング佐賀 -->
+        <section class="tourism-section">
+          <div class="tourism-card">
+            <h2 class="tourism-card__title">ロマンシング佐賀</h2>
+            <div class="tourism-card__description">
+              <p>
+                歴史と文化が息づく佐賀県の中心地。美しい自然に囲まれ、年間を通じて様々なイベントが開催される活気ある街です。
+                2023年に完成したSAGAサンライズパークは、スポーツイベントからコンサート、展示会まで多岐にわたるイベントが開催できる、佐賀の新たなシンボルとも言える施設になっています。
+              </p>
+              <p>
+                ロマンシング佐賀では、佐賀駅南・北の各リージョンでデジタルスタンプラリーが開催されています。
+                「サガ」シリーズとコラボしたマンホールやベンチを巡って、限定アイテムを手に入れましょう。
+              </p>
+            </div>
+            <div class="video-container">
+              <iframe 
+                src="https://www.youtube.com/embed/yFTO98Q0EDY" 
+                title="ロマンシング佐賀" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin">
+              </iframe>
+            </div>
+            <a href="https://romasaga.info/region/saga" class="tourism-card__link" target="_blank" rel="noopener">公式サイトへ</a>
+          </div>
+        </section>
+
+        <!-- ゾンビランドサガめぐり -->
+        <section class="tourism-section">
+          <div class="tourism-card">
+            <h2 class="tourism-card__title">ゾンビランドサガめぐり～巽幸太郎と走る！リベンジへの道～</h2>
+            <div class="tourism-card__description">
+              <p>
+                映画「ゾンビランドサガ　ゆめぎんがパラダイス」から生まれた、サガマチランデブー企画「ゾンビランドサガめぐり～巽幸太郎と走る！リベンジへの道～」。
+                佐賀の街を舞台にしたアニメ「ゾンビランドサガ」の聖地を巡る観光企画です。
+              </p>
+              <p>
+                巽幸太郎と一緒に佐賀の名所を巡り、作品の世界観を体感できる特別なツアーとなっています。
+                ファンの方はもちろん、佐賀を訪れるすべての方におすすめの観光コースです。
+              </p>
+            </div>
+            <div class="video-container">
+              <iframe 
+                src="https://www.youtube.com/embed/ClF2EzPO-Ew" 
+                title="ゾンビランドサガめぐり" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin">
+              </iframe>
+            </div>
+            <a href="https://saga-machi.jp/hopping" class="tourism-card__link" target="_blank" rel="noopener">公式サイトへ</a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div style="margin-bottom: 1rem;">
+          <a href="https://www.youtube.com/@SAGAITCommunityDay-w1j" target="_blank" rel="noopener" style="margin-right: 1rem; color: var(--color-link); text-decoration: none;">YouTube</a>
+          <a href="https://x.com/intent/tweet?text=https://saga-it-community-day.github.io/%20%23sitcd" target="_blank" rel="noopener" style="color: var(--color-link); text-decoration: none;">Xでシェア</a>
+        </div>
+        <p class="small">© 2026 Saga IT Community Day Committee. All rights reserved.</p>
+        <p class="small" style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">
+          本サイトのコンテンツは著作権法により保護されています。無断での複製・改ざん・転載を禁じます。
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
