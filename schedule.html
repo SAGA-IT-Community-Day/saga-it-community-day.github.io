@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="{{ page.lang | default: 'ja' }}" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>詳細タイムスケジュール - SAGA IT Community Day</title>
+    <meta name="description" content="SAGA IT Community Day 2026の詳細なタイムスケジュール" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // テーマとi18nの初期化
+      document.addEventListener('DOMContentLoaded', function() {
+        // ダークモードの初期化
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // 言語の初期化
+        const savedLang = localStorage.getItem('language') || 'ja';
+        document.documentElement.setAttribute('data-lang', savedLang);
+        
+        // テーマ切り替え機能
+        window.toggleTheme = function() {
+          const currentTheme = document.documentElement.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          updateThemeButton();
+        };
+        
+        // 言語切り替え機能
+        window.toggleLanguage = function() {
+          const currentLang = document.documentElement.getAttribute('data-lang');
+          const newLang = currentLang === 'ja' ? 'en' : 'ja';
+          document.documentElement.setAttribute('data-lang', newLang);
+          localStorage.setItem('language', newLang);
+          updateLanguageButton();
+          updateContent();
+        };
+        
+        // テーマボタンの更新
+        function updateThemeButton() {
+          const theme = document.documentElement.getAttribute('data-theme');
+          const button = document.getElementById('theme-toggle');
+          if (button) {
+            button.textContent = theme === 'light' ? '🌙' : '☀️';
+            button.setAttribute('aria-label', theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え');
+          }
+        }
+        
+        // 言語ボタンの更新
+        function updateLanguageButton() {
+          const lang = document.documentElement.getAttribute('data-lang');
+          const button = document.getElementById('language-toggle');
+          if (button) {
+            button.textContent = lang === 'ja' ? 'EN' : '日本語';
+          }
+        }
+        
+        // コンテンツの更新
+        function updateContent() {
+          const lang = document.documentElement.getAttribute('data-lang');
+          const elements = document.querySelectorAll('[data-ja], [data-en]');
+          elements.forEach(element => {
+            const text = element.getAttribute(`data-${lang}`);
+            if (text) {
+              element.textContent = text;
+            }
+          });
+        }
+        
+        // 初期化
+        updateThemeButton();
+        updateLanguageButton();
+        updateContent();
+      });
+    </script>
+    <style>
+      .schedule-page {
+        padding: 2rem 0;
+      }
+      .schedule-section {
+        margin-bottom: 4rem;
+      }
+      .schedule-section__title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: var(--color-primary);
+      }
+      .schedule-section__subtitle {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--color-primary);
+      }
+      .schedule-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        background: var(--color-bg);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .schedule-table th,
+      .schedule-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+      }
+      .schedule-table th {
+        background: var(--color-primary);
+        color: #000;
+        font-weight: 600;
+      }
+      .schedule-table tr:last-child td {
+        border-bottom: none;
+      }
+      .schedule-table tr:hover {
+        background: var(--color-muted);
+      }
+      .time-cell {
+        font-weight: 600;
+        color: var(--color-primary);
+        white-space: nowrap;
+        width: 180px;
+      }
+      .event-cell {
+        font-weight: 500;
+      }
+      .note-cell {
+        font-size: 0.9rem;
+        color: var(--color-text);
+        opacity: 0.8;
+        font-style: italic;
+      }
+      .highlight-row {
+        background: var(--color-muted) !important;
+        font-weight: 600;
+      }
+      .highlight-row td {
+        border-top: 2px solid var(--color-primary);
+      }
+      .warning-note {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        margin: 1.5rem 0;
+        border-radius: var(--radius);
+      }
+      [data-theme="dark"] .warning-note {
+        background: #3d2f00;
+        border-left-color: #ffc107;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 2rem;
+        color: var(--color-link);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html">SITCD</a>
+        <nav class="nav">
+          <a href="index.html#about" data-ja="概要" data-en="About">概要</a>
+          <a href="index.html#schedule" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+          <a href="index.html#venue" data-ja="会場" data-en="Venue">会場</a>
+          <a href="index.html#community" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</a>
+          <a href="index.html#speaker" data-ja="登壇者" data-en="Speakers">登壇者</a>
+          <a href="index.html#staff" data-ja="運営" data-en="Staff">運営</a>
+          <a href="index.html#faq" data-ja="FAQ" data-en="FAQ">FAQ</a>
+          <a href="index.html#contact" class="btn btn--nav" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+          <button id="language-toggle" class="btn btn--ghost" onclick="toggleLanguage()">EN</button>
+          <button id="theme-toggle" class="btn btn--ghost" onclick="toggleTheme()" aria-label="ダークモードに切り替え">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="schedule-page">
+      <div class="container">
+        <a href="index.html" class="back-link">← トップページに戻る</a>
+        
+        <h1 class="section__title" style="margin-bottom: 2rem;">詳細タイムスケジュール</h1>
+
+        <!-- Day1 -->
+        <section class="schedule-section">
+          <h2 class="schedule-section__title">Day1 - 2026年2月21日（土）</h2>
+          
+          <!-- メイン会場 -->
+          <h3 class="schedule-section__subtitle">【メイン会場】LIGHTHOUSE</h3>
+          <p class="note">コミュニティ紹介（10分＋5分）×10枠 ＋ ハンズオン</p>
+          
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-cell">11:10–11:25</td>
+                <td class="event-cell">コミュニティ①</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:25–11:40</td>
+                <td class="event-cell">コミュニティ②</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:40–11:55</td>
+                <td class="event-cell">コミュニティ③</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:55–12:00</td>
+                <td class="note-cell">小休憩</td>
+              </tr>
+              <tr>
+                <td class="time-cell">12:00–13:00</td>
+                <td class="note-cell">昼休憩</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:00–13:15</td>
+                <td class="event-cell">コミュニティ④</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:15–13:30</td>
+                <td class="event-cell">コミュニティ⑤</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:30–13:45</td>
+                <td class="event-cell">コミュニティ⑥</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:45–14:00</td>
+                <td class="event-cell">コミュニティ⑦</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:00–14:15</td>
+                <td class="event-cell">コミュニティ⑧</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:15–14:30</td>
+                <td class="event-cell">コミュニティ⑨</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:30–14:45</td>
+                <td class="event-cell">コミュニティ⑩</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:45–14:50</td>
+                <td class="note-cell">ハンズオン準備</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:50–15:20</td>
+                <td class="event-cell">ハンズオン（本編）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:20–15:30</td>
+                <td class="note-cell">ハンズオン（リソース削除）</td>
+              </tr>
+              <tr class="highlight-row">
+                <td class="time-cell">15:30–16:00</td>
+                <td class="event-cell">全体クロージング（メイン会場）</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- サブ会場 -->
+          <h3 class="schedule-section__subtitle">【サブ会場】スマート街なかラボ</h3>
+          <div class="warning-note">
+            <strong>重要：</strong>サブ会場は15:30に完全撤収・無人化します。スタッフ含め誰も残りません。全員メイン会場へ移動してください。
+          </div>
+          
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-cell">10:00–11:00</td>
+                <td class="note-cell">設営</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:00–11:10</td>
+                <td class="note-cell">開場準備</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:10–12:00</td>
+                <td class="event-cell">展示・体験（前半）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">12:00–13:00</td>
+                <td class="note-cell">昼休憩（縮小運営 or 開放）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:00–15:00</td>
+                <td class="event-cell">展示・体験（後半）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:00–15:20</td>
+                <td class="note-cell">撤収開始（在室スタッフで一気に片付け）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:20–15:30</td>
+                <td class="note-cell">最終撤収（完全空室化）</td>
+              </tr>
+              <tr class="highlight-row">
+                <td class="time-cell">15:30</td>
+                <td class="event-cell">サブ会場：完全閉鎖（スタッフ含め誰も残らない）<br><small>→ 全員メイン会場へ移動</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Day2 -->
+        <section class="schedule-section">
+          <h2 class="schedule-section__title">Day2 - 2026年2月22日（日）</h2>
+          <h3 class="schedule-section__subtitle">【メイン会場】LIGHTHOUSE</h3>
+          <p class="note">アイデアソン＋交流</p>
+          
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-cell">13:00–13:30</td>
+                <td class="event-cell">受付・オープニング</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:30–13:50</td>
+                <td class="event-cell">趣旨説明・インプット<br><small>（進め方の説明、テーマ提示）</small></td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:50–14:40</td>
+                <td class="event-cell">アイデア創出ワーク①（50分）<br><small>個人発想 → グループ共有</small></td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:40–15:20</td>
+                <td class="event-cell">アイデアブラッシュアップ（40分）<br><small>整理・深掘り・アウトライン作成</small></td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:20–16:00</td>
+                <td class="event-cell">成果発表（40分）<br><small>各チーム 約5分 × 最大8チーム想定<br>＋ 軽い質疑応答</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="small">© 2026 Saga IT Community Day Committee</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
