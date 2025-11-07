@@ -260,63 +260,6 @@
             }, i * 50);
           }
         });
-        
-        // キャラクター（佐賀ナイト）の機能
-        const sagaKnight = document.getElementById('saga-knight');
-        let clickCount = 0; // クリック回数をカウント
-        
-        if (sagaKnight) {
-          // クリックで跳ねる + ☆に数字を追加
-          sagaKnight.addEventListener('click', function(e) {
-            clickCount++;
-            this.classList.add('clicked');
-            setTimeout(() => {
-              this.classList.remove('clicked');
-            }, 500);
-            
-            // ☆を作成して表示
-            createStarWithNumber(clickCount, e);
-          });
-          
-          // ☆を作成する関数
-          function createStarWithNumber(number, clickEvent) {
-            const star = document.createElement('div');
-            star.className = 'click-star';
-            star.textContent = '☆' + number;
-            
-            // キャラクターの位置を取得
-            const knightRect = sagaKnight.getBoundingClientRect();
-            const knightCenterX = knightRect.left + knightRect.width / 2;
-            const knightCenterY = knightRect.top + knightRect.height / 2;
-            
-            // ランダムな角度と距離で配置
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 60 + Math.random() * 40; // 60-100pxの距離
-            const x = knightCenterX + Math.cos(angle) * distance;
-            const y = knightCenterY + Math.sin(angle) * distance;
-            
-            star.style.left = x + 'px';
-            star.style.top = y + 'px';
-            
-            document.body.appendChild(star);
-            
-            // アニメーションで出現
-            setTimeout(() => {
-              star.classList.add('show');
-            }, 10);
-          }
-          
-          // イベント期間中は限定キャラに切り替え
-          // イベント期間: 2026年2月21日〜2月22日
-          const eventStart = new Date('2026-02-21T00:00:00');
-          const eventEnd = new Date('2026-02-23T00:00:00');
-          const now = new Date();
-          
-          if (now >= eventStart && now <= eventEnd) {
-            sagaKnight.classList.add('event-limited');
-            sagaKnight.setAttribute('title', 'イベント限定キャラクター');
-          }
-        }
       });
     </script>
   </head>
@@ -343,11 +286,6 @@
     <!-- 閲覧者数表示（左側固定） -->
     <div id="viewer-count" class="viewer-count-bubble" data-ja="今このサイトを見ている人が0人います" data-en="0 people are currently viewing this site">
       <span class="viewer-count-text">今このサイトを見ている人が0人います</span>
-    </div>
-
-    <!-- キャラクター（佐賀ナイト） -->
-    <div id="saga-knight" class="saga-knight" title="佐賀ナイト">
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEheBHqUpGOIekuLF7sFwLHghPZwOlcy4m4iL29rjl2fVbsnJp6P0i2caIS1mPOjMnBwo9p2ID6AdpcuJFyi629YvTJDtXm4Ty5ttnBe43-YsK_gmebpbbJffxwh1Lz1UaprvA0k-vrIzDqu/s800/japan_character8_kyuusyuu2_saga.png" alt="佐賀ナイト" class="saga-knight__sprite" />
     </div>
 
     <main>
