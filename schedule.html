@@ -130,6 +130,25 @@
               element.textContent = text;
             }
           });
+          
+          // 閲覧者数の更新（言語に合わせて数値部分を再生成）
+          updateViewerCount();
+        }
+        
+        // 現在の閲覧者数を表示する機能
+        function updateViewerCount() {
+          const viewerCountText = document.querySelector('#viewer-count .viewer-count-text');
+          if (viewerCountText) {
+            // 0〜3のランダムな数値を生成
+            const count = Math.floor(Math.random() * 4); // 0, 1, 2, 3
+            const lang = document.documentElement.getAttribute('data-lang') || 'ja';
+            
+            if (lang === 'ja') {
+              viewerCountText.textContent = `今このサイトを見ている人が${count}人います`;
+            } else {
+              viewerCountText.textContent = `${count} people are currently viewing this site`;
+            }
+          }
         }
         
         // 初期化
@@ -247,6 +266,11 @@
         </nav>
       </div>
     </header>
+
+    <!-- 閲覧者数表示（左側固定） -->
+    <div id="viewer-count" class="viewer-count-bubble" data-ja="今このサイトを見ている人が0人います" data-en="0 people are currently viewing this site">
+      <span class="viewer-count-text">今このサイトを見ている人が0人います</span>
+    </div>
 
     <main class="schedule-page">
       <div class="container">
