@@ -509,7 +509,8 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   }
   
   .communities-list .community-card__description {
-    display: none;
+    display: none !important;
+    flex: none !important;
   }
 }
 
