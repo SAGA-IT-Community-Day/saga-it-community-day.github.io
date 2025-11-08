@@ -125,6 +125,10 @@
           const lang = document.documentElement.getAttribute('data-lang');
           const elements = document.querySelectorAll('[data-ja], [data-en]');
           elements.forEach(element => {
+            // 閲覧者数表示は除外（updateViewerCount()で個別に処理）
+            if (element.id === 'viewer-count') {
+              return;
+            }
             const text = element.getAttribute(`data-${lang}`);
             if (text) {
               element.textContent = text;
@@ -176,8 +180,8 @@
         function updateViewerCount() {
           const viewerCountText = document.querySelector('#viewer-count .viewer-count-text');
           if (viewerCountText) {
-            // 0〜3のランダムな数値を生成
-            const count = Math.floor(Math.random() * 4); // 0, 1, 2, 3
+            // 1〜3のランダムな数値を生成（0を避けるため）
+            const count = Math.floor(Math.random() * 3) + 1; // 1, 2, 3
             const lang = document.documentElement.getAttribute('data-lang') || 'ja';
             
             if (lang === 'ja') {
@@ -187,6 +191,9 @@
             }
           }
         }
+        
+        // 閲覧者数を定期的に更新（30秒ごと）
+        setInterval(updateViewerCount, 30000);
         
         // ハンバーガーメニューの開閉機能
         const hamburgerToggle = document.getElementById('hamburger-toggle');
@@ -254,6 +261,8 @@
         updateThemeButton();
         updateLanguageButton();
         updateContent();
+        // 閲覧者数を初期表示（updateContent()の後に呼ぶことで確実に更新される）
+        updateViewerCount();
         
         // マウスカーソル追従エフェクト
         let lastTrailTime = 0;
@@ -377,7 +386,7 @@
 
       <section id="about" class="section">
         <div class="container">
-          <h2 class="section__title" data-ja="開催概要" data-en="Event Overview">開催概要</h2>
+          <h2 class="section__title" data-ja="概要" data-en="Event Overview">概要</h2>
           
           <div class="event-overview">
             <div class="overview-card">
@@ -442,7 +451,7 @@
 
       <section id="schedule" class="section section--alt">
         <div class="container">
-          <h2 class="section__title" data-ja="スケジュール（概要）" data-en="Schedule (Overview)">スケジュール（概要）</h2>
+          <h2 class="section__title" data-ja="スケジュール" data-en="Schedule (Overview)">スケジュール</h2>
           <div class="cards">
             <article class="card">
               <h3 class="card__eyebrow">Day1</h3>
@@ -472,7 +481,7 @@
 
       <section id="venue" class="section">
         <div class="container">
-          <h2 class="section__title" data-ja="会場案内" data-en="Venue Information">会場案内</h2>
+          <h2 class="section__title" data-ja="会場" data-en="Venue Information">会場</h2>
           
           <div class="venue-info">
             <div class="venue-card">
@@ -647,7 +656,7 @@
 
       <section id="staff" class="section">
         <div class="container">
-          <h2 class="section__title" data-ja="運営スタッフ" data-en="Staff">運営スタッフ</h2>
+          <h2 class="section__title" data-ja="運営" data-en="Staff">運営</h2>
           <div class="person-cards">
             <!-- スタッフカードの例（まだ登録者がいない場合はコメントアウト）
             使い方：
@@ -687,7 +696,7 @@
 
       <section id="faq" class="section section--alt">
         <div class="container">
-          <h2 class="section__title" data-ja="よくある質問" data-en="Frequently Asked Questions">よくある質問</h2>
+          <h2 class="section__title" data-ja="FAQ" data-en="Frequently Asked Questions">FAQ</h2>
           <details class="faq">
             <summary data-ja="SAGA IT Community Day実行委員会とはなんですか？" data-en="What is the SAGA IT Community Day Executive Committee?">SAGA IT Community Day実行委員会とはなんですか？</summary>
             <p data-ja="表示されている各コミュニティから有志を募って本イベントを企画・運営しています。" data-en="We are planning and operating this event with volunteers from each of the participating communities.">表示されている各コミュニティから有志を募って本イベントを企画・運営しています。</p>
