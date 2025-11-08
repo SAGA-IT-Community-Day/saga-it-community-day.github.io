@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org https://www.youtube.com; connect-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org; connect-src 'self';">
     <meta name="copyright" content="© 2026 Saga IT Community Day Committee. All rights reserved.">
-    <title>観光情報 - SAGA IT Community Day</title>
-    <meta name="description" content="SAGA IT Community Day 2026開催地・佐賀の観光情報" />
+    <title>詳細タイムスケジュール - SAGA IT Community Day</title>
+    <meta name="description" content="SAGA IT Community Day 2026の詳細なタイムスケジュール" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
@@ -158,70 +158,83 @@
       });
     </script>
     <style>
-      .tourism-page {
+      .schedule-page {
         padding: 2rem 0;
       }
-      .tourism-section {
+      .schedule-section {
         margin-bottom: 4rem;
       }
-      .tourism-section__title {
+      .schedule-section__title {
         font-size: 2rem;
         font-weight: 800;
         margin-bottom: 1rem;
         color: var(--color-primary);
       }
-      .tourism-card {
-        background: #fff;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius);
-        padding: 24px;
-        box-shadow: var(--shadow);
-        margin-bottom: 2rem;
-      }
-      .tourism-card__title {
+      .schedule-section__subtitle {
         font-size: 1.5rem;
-        font-weight: 700;
-        margin: 0 0 16px;
-        color: var(--color-primary);
+        font-weight: 600;
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.5rem;
         border-bottom: 2px solid var(--color-primary);
-        padding-bottom: 8px;
       }
-      .tourism-card__description {
-        margin: 0 0 20px;
-        line-height: 1.8;
-        color: var(--color-text);
-      }
-      .tourism-card__link {
-        display: inline-block;
-        margin-top: 16px;
-        padding: 10px 20px;
-        background: var(--color-primary);
-        color: #222;
-        text-decoration: none;
-        border-radius: 999px;
-        font-weight: 700;
-        transition: filter 0.2s ease;
-      }
-      .tourism-card__link:hover {
-        filter: brightness(0.95);
-      }
-      .video-container {
-        position: relative;
+      .schedule-table {
         width: 100%;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
-        height: 0;
-        overflow: hidden;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        background: var(--color-bg);
         border-radius: var(--radius);
-        margin: 20px 0;
+        overflow: hidden;
         box-shadow: var(--shadow);
       }
-      .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
+      .schedule-table th,
+      .schedule-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+      }
+      .schedule-table th {
+        background: var(--color-primary);
+        color: #000;
+        font-weight: 600;
+      }
+      .schedule-table tr:last-child td {
+        border-bottom: none;
+      }
+      .schedule-table tr:hover {
+        background: var(--color-muted);
+      }
+      .time-cell {
+        font-weight: 600;
+        color: var(--color-primary);
+        white-space: nowrap;
+        width: 180px;
+      }
+      .event-cell {
+        font-weight: 500;
+      }
+      .note-cell {
+        font-size: 0.9rem;
+        color: var(--color-text);
+        opacity: 0.8;
+        font-style: italic;
+      }
+      .highlight-row {
+        background: var(--color-muted) !important;
+        font-weight: 600;
+      }
+      .highlight-row td {
+        border-top: 2px solid var(--color-primary);
+      }
+      .warning-note {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        margin: 1.5rem 0;
+        border-radius: var(--radius);
+      }
+      [data-theme="dark"] .warning-note {
+        background: #3d2f00;
+        border-left-color: #ffc107;
       }
       .back-link {
         display: inline-block;
@@ -232,14 +245,6 @@
       }
       .back-link:hover {
         text-decoration: underline;
-      }
-      [data-theme="dark"] .tourism-card {
-        background: var(--color-bg);
-        border-color: var(--color-border);
-      }
-      [data-theme="dark"] .tourism-card__title {
-        color: var(--color-primary);
-        border-bottom-color: var(--color-primary);
       }
     </style>
   </head>
@@ -268,90 +273,181 @@
       <span class="viewer-count-text">今このサイトを見ている人が0人います</span>
     </div>
 
-    <main class="tourism-page">
+    <main class="schedule-page">
       <div class="container">
         <a href="index.html" class="back-link">← トップページに戻る</a>
         
-        <h1 class="section__title" style="margin-bottom: 2rem;">観光情報</h1>
-        <p style="margin-bottom: 3rem; font-size: 1.1rem; line-height: 1.8;">
-          SAGA IT Community Day 2026の開催地・佐賀には、魅力的な観光スポットがたくさんあります。イベント参加の前後にお立ち寄りください。
-        </p>
+        <h1 class="section__title" style="margin-bottom: 2rem;">詳細タイムスケジュール</h1>
 
-        <!-- バルーン -->
-        <section class="tourism-section">
-          <div class="tourism-card">
-            <h2 class="tourism-card__title">佐賀バルーンミュージアム</h2>
-            <div class="tourism-card__description">
-              <p>
-                佐賀バルーンミュージアムは、世界最大級の熱気球イベント「佐賀インターナショナルバルーンフェスタ」の歴史と魅力を紹介する施設です。
-                バルーンの歴史、技術、そして佐賀でのバルーンフェスタの軌跡を、展示や映像を通じて学ぶことができます。
-              </p>
-              <p>
-                <strong>開館時間：</strong>10:00〜17:00（入館は16:30まで）<br>
-                <strong>休館日：</strong>月曜日（祝日の場合は翌日）、年末年始（12月31日～1月1日）<br>
-                <strong>観覧料：</strong>大人 500円、小中高生 200円、小学生未満 無料
-              </p>
-              <p>
-                バルーンに関する展示をしているミュージアムスペースの見学には「観覧料」が必要です。
-                1階ショップや2階カフェのご利用に観覧料は不要です。
-              </p>
-            </div>
-            <a href="https://www.sagabai.com/balloon-museum/main/" class="tourism-card__link" target="_blank" rel="noopener">公式サイトへ</a>
+        <!-- Day1 -->
+        <section class="schedule-section">
+          <h2 class="schedule-section__title">Day1 - 2026年2月21日（土）</h2>
+          
+          <!-- メイン会場 -->
+          <h3 class="schedule-section__subtitle">【メイン会場】LIGHTHOUSE</h3>
+          <p class="note">コミュニティ紹介（10分＋5分）×10枠 ＋ ハンズオン</p>
+          
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-cell">11:10–11:25</td>
+                <td class="event-cell">コミュニティ①</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:25–11:40</td>
+                <td class="event-cell">コミュニティ②</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:40–11:55</td>
+                <td class="event-cell">コミュニティ③</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:55–12:00</td>
+                <td class="note-cell">小休憩</td>
+              </tr>
+              <tr>
+                <td class="time-cell">12:00–13:00</td>
+                <td class="note-cell">昼休憩</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:00–13:15</td>
+                <td class="event-cell">コミュニティ④</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:15–13:30</td>
+                <td class="event-cell">コミュニティ⑤</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:30–13:45</td>
+                <td class="event-cell">コミュニティ⑥</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:45–14:00</td>
+                <td class="event-cell">コミュニティ⑦</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:00–14:15</td>
+                <td class="event-cell">コミュニティ⑧</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:15–14:30</td>
+                <td class="event-cell">コミュニティ⑨</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:30–14:45</td>
+                <td class="event-cell">コミュニティ⑩</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:45–14:50</td>
+                <td class="note-cell">ハンズオン準備</td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:50–15:20</td>
+                <td class="event-cell">ハンズオン（本編）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:20–15:30</td>
+                <td class="note-cell">ハンズオン（リソース削除）</td>
+              </tr>
+              <tr class="highlight-row">
+                <td class="time-cell">15:30–16:00</td>
+                <td class="event-cell">全体クロージング（メイン会場）</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- サブ会場 -->
+          <h3 class="schedule-section__subtitle">【サブ会場】スマート街なかラボ</h3>
+          <div class="warning-note">
+            <strong>重要：</strong>サブ会場は15:30に完全撤収・無人化します。スタッフ含め誰も残りません。全員メイン会場へ移動してください。
           </div>
+          
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-cell">10:00–11:00</td>
+                <td class="note-cell">設営</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:00–11:10</td>
+                <td class="note-cell">開場準備</td>
+              </tr>
+              <tr>
+                <td class="time-cell">11:10–12:00</td>
+                <td class="event-cell">展示・体験（前半）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">12:00–13:00</td>
+                <td class="note-cell">昼休憩（縮小運営 or 開放）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:00–15:00</td>
+                <td class="event-cell">展示・体験（後半）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:00–15:20</td>
+                <td class="note-cell">撤収開始（在室スタッフで一気に片付け）</td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:20–15:30</td>
+                <td class="note-cell">最終撤収（完全空室化）</td>
+              </tr>
+              <tr class="highlight-row">
+                <td class="time-cell">15:30</td>
+                <td class="event-cell">サブ会場：完全閉鎖（スタッフ含め誰も残らない）<br><small>→ 全員メイン会場へ移動</small></td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
-        <!-- ロマンシング佐賀 -->
-        <section class="tourism-section">
-          <div class="tourism-card">
-            <h2 class="tourism-card__title">ロマンシング佐賀</h2>
-            <div class="tourism-card__description">
-              <p>
-                歴史と文化が息づく佐賀県の中心地。美しい自然に囲まれ、年間を通じて様々なイベントが開催される活気ある街です。
-                2023年に完成したSAGAサンライズパークは、スポーツイベントからコンサート、展示会まで多岐にわたるイベントが開催できる、佐賀の新たなシンボルとも言える施設になっています。
-              </p>
-              <p>
-                ロマンシング佐賀では、佐賀駅南・北の各リージョンでデジタルスタンプラリーが開催されています。
-                「サガ」シリーズとコラボしたマンホールやベンチを巡って、限定アイテムを手に入れましょう。
-              </p>
-            </div>
-            <div class="video-container">
-              <iframe 
-                src="https://www.youtube.com/embed/yFTO98Q0EDY" 
-                title="ロマンシング佐賀" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen
-                referrerpolicy="strict-origin-when-cross-origin">
-              </iframe>
-            </div>
-            <a href="https://romasaga.info/region/saga" class="tourism-card__link" target="_blank" rel="noopener">公式サイトへ</a>
-          </div>
-        </section>
-
-        <!-- ゾンビランドサガめぐり -->
-        <section class="tourism-section">
-          <div class="tourism-card">
-            <h2 class="tourism-card__title">ゾンビランドサガめぐり～巽幸太郎と走る！リベンジへの道～</h2>
-            <div class="tourism-card__description">
-              <p>
-                映画「ゾンビランドサガ　ゆめぎんがパラダイス」から生まれた、サガマチランデブー企画「ゾンビランドサガめぐり～巽幸太郎と走る！リベンジへの道～」。
-                佐賀の街を舞台にしたアニメ「ゾンビランドサガ」の聖地を巡る観光企画です。
-              </p>
-              <p>
-                巽幸太郎と一緒に佐賀の名所を巡り、作品の世界観を体感できる特別なツアーとなっています。
-                ファンの方はもちろん、佐賀を訪れるすべての方におすすめの観光コースです。
-              </p>
-            </div>
-            <div class="video-container">
-              <iframe 
-                src="https://www.youtube.com/embed/ClF2EzPO-Ew" 
-                title="ゾンビランドサガめぐり" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen
-                referrerpolicy="strict-origin-when-cross-origin">
-              </iframe>
-            </div>
-            <a href="https://saga-machi.jp/hopping" class="tourism-card__link" target="_blank" rel="noopener">公式サイトへ</a>
-          </div>
+        <!-- Day2 -->
+        <section class="schedule-section">
+          <h2 class="schedule-section__title">Day2 - 2026年2月22日（日）</h2>
+          <h3 class="schedule-section__subtitle">【メイン会場】LIGHTHOUSE</h3>
+          <p class="note">アイデアソン＋交流</p>
+          
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-cell">13:00–13:30</td>
+                <td class="event-cell">受付・オープニング</td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:30–13:50</td>
+                <td class="event-cell">趣旨説明・インプット<br><small>（進め方の説明、テーマ提示）</small></td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:50–14:40</td>
+                <td class="event-cell">アイデア創出ワーク①（50分）<br><small>個人発想 → グループ共有</small></td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:40–15:20</td>
+                <td class="event-cell">アイデアブラッシュアップ（40分）<br><small>整理・深掘り・アウトライン作成</small></td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:20–16:00</td>
+                <td class="event-cell">成果発表（40分）<br><small>各チーム 約5分 × 最大8チーム想定<br>＋ 軽い質疑応答</small></td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
       </div>
@@ -362,6 +458,11 @@
         <div style="margin-bottom: 1rem;">
           <a href="https://www.youtube.com/@SAGAITCommunityDay-w1j" target="_blank" rel="noopener" style="margin-right: 1rem; color: var(--color-link); text-decoration: none;">YouTube</a>
           <a href="https://x.com/intent/tweet?text=https://saga-it-community-day.github.io/%20%23sitcd" target="_blank" rel="noopener" style="color: var(--color-link); text-decoration: none;">Xでシェア</a>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <a href="index.html" style="color: var(--color-link); text-decoration: none;">2026年 Winter</a>
+          <span style="margin: 0 0.5rem; color: var(--color-text); opacity: 0.7;">|</span>
+          <a href="../2025-winter/index.html" style="color: var(--color-link); text-decoration: none;">2025年 Winter</a>
         </div>
         <p class="small">© 2026 Saga IT Community Day Committee. All rights reserved.</p>
         <p class="small" style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">
