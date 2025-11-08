@@ -507,6 +507,10 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
   .communities-list .community-card__title {
     min-width: auto;
   }
+  
+  .communities-list .community-card__description {
+    display: none;
+  }
 }
 
 /* 登壇者・スタッフカードのスタイル */
