@@ -348,6 +348,7 @@
         <nav class="nav" id="main-nav">
           <a href="#about" data-ja="概要" data-en="About">概要</a>
           <a href="#schedule" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+          <a href="#registration" data-ja="参加登録" data-en="Registration">参加登録</a>
           <a href="#venue" data-ja="会場" data-en="Venue">会場</a>
           <a href="#community" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</a>
           <a href="#speaker" data-ja="登壇者" data-en="Speakers">登壇者</a>
@@ -374,13 +375,7 @@
           <p class="hero__meta" data-ja="Day1 2026年2月21日 / Day2 2026年2月22日" data-en="Day1 February 21, 2026 / Day2 February 22, 2026">Day1 2026年2月21日 / Day2 2026年2月22日</p>
           <p class="hero__venue" data-ja="会場：LIGHTHOUSE（メイン会場）・スマート街なかラボ（サブ会場）" data-en="Venue: LIGHTHOUSE (Main) & Smart Machinaka Lab (Sub)">会場：LIGHTHOUSE（メイン会場）・スマート街なかラボ（サブ会場）</p>
           <div class="hero__ctas">
-            <!-- TODO: イベント申し込みリンクを設定してください
-                 connpass、Luma、Google FormのいずれかのURLを設定してください
-                 例: href="https://xxx.connpass.com/event/xxx/" 
-                 例: href="https://lu.ma/xxx"
-                 例: href="https://docs.google.com/forms/d/e/xxx/viewform"
-                 リンクを設定したら、btn--disabledクラスを削除してください -->
-            <a href="#" class="btn btn--primary btn--disabled" data-ja="参加登録" data-en="Register" onclick="return false;">参加登録</a>
+            <a href="#registration" class="btn btn--primary" data-ja="参加登録" data-en="Register">参加登録</a>
             <a href="#schedule" class="btn btn--ghost" data-ja="タイムテーブル" data-en="Schedule">タイムテーブル</a>
           </div>
         </div>
@@ -414,11 +409,51 @@
           
           <div class="event-details">
             <ul class="list">
-              <li><strong data-ja="参加費：" data-en="Fee: ">参加費：</strong><span data-ja="未定" data-en="TBD">未定</span></li>
+              <li><strong data-ja="参加費：" data-en="Fee: ">参加費：</strong><span data-ja="無料" data-en="Free">無料</span></li>
+              <li><strong data-ja="お菓子・コーヒー代：" data-en="Snacks & Coffee: ">お菓子・コーヒー代：</strong><span data-ja="寄付制度（任意）" data-en="Donation system (optional)">寄付制度（任意）</span></li>
               <li><strong data-ja="主催：" data-en="Organizer: ">主催：</strong>SAGA IT Community Day 2026 実行委員会（各コミュニティから有志）</li>
               <li><strong data-ja="後援：" data-en="Support: ">後援：</strong><a href="https://www.saga-smart.jp/" target="_blank" rel="noopener">佐賀県産業スマート化センター</a></li>
             </ul>
             <p class="note" data-ja="詳細な参加方法・注意事項は後日ご案内します。" data-en="Detailed participation methods and notes will be announced later.">詳細な参加方法・注意事項は後日ご案内します。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="registration" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title" data-ja="参加登録" data-en="Registration">参加登録</h2>
+          <p data-ja="各イベントへの参加登録は以下のリンクからお願いします。" data-en="Please register for each event using the links below.">各イベントへの参加登録は以下のリンクからお願いします。</p>
+          
+          <div class="registration-cards">
+            <div class="registration-card">
+              <h3 class="registration-card__title" data-ja="Day1 参加者登録" data-en="Day1 Registration">Day1 参加者登録</h3>
+              <p class="registration-card__date" data-ja="2026年2月21日（土）" data-en="Saturday, February 21, 2026">2026年2月21日（土）</p>
+              <a href="https://luma.com/zirhonbv" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
+            </div>
+            
+            <div class="registration-card">
+              <h3 class="registration-card__title" data-ja="Day1 簡易懇親会" data-en="Day1 Mini Networking">Day1 簡易懇親会</h3>
+              <p class="registration-card__date" data-ja="2026年2月21日（土）16:00-18:00" data-en="Saturday, February 21, 2026 16:00-18:00">2026年2月21日（土）16:00-18:00</p>
+              <a href="https://luma.com/dsoegmpo" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
+            </div>
+            
+            <div class="registration-card">
+              <h3 class="registration-card__title" data-ja="Day1 懇親会" data-en="Day1 Networking">Day1 懇親会</h3>
+              <p class="registration-card__date" data-ja="2026年2月21日（土）19:00-21:00" data-en="Saturday, February 21, 2026 19:00-21:00">2026年2月21日（土）19:00-21:00</p>
+              <a href="#" class="btn btn--primary btn--disabled" data-ja="準備中" data-en="Coming Soon" onclick="return false;">準備中</a>
+            </div>
+            
+            <div class="registration-card">
+              <h3 class="registration-card__title" data-ja="Day2 参加者登録" data-en="Day2 Registration">Day2 参加者登録</h3>
+              <p class="registration-card__date" data-ja="2026年2月22日（日）" data-en="Sunday, February 22, 2026">2026年2月22日（日）</p>
+              <a href="https://luma.com/1k4704yt" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
+            </div>
+            
+            <div class="registration-card">
+              <h3 class="registration-card__title" data-ja="Day2 懇親会" data-en="Day2 Networking">Day2 懇親会</h3>
+              <p class="registration-card__date" data-ja="2026年2月22日（日）17:00-19:00" data-en="Sunday, February 22, 2026 17:00-19:00">2026年2月22日（日）17:00-19:00</p>
+              <a href="#" class="btn btn--primary btn--disabled" data-ja="準備中" data-en="Coming Soon" onclick="return false;">準備中</a>
+            </div>
           </div>
         </div>
       </section>
