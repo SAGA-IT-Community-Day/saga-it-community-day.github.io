@@ -573,23 +573,8 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
 .person-card__name {
   font-size: 18px;
   font-weight: 700;
-  margin: 0 0 8px;
-  color: var(--color-text);
-}
-
-.person-card__role {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 0 12px;
-  color: var(--color-primary);
-}
-
-.person-card__comment {
-  font-size: 13px;
   margin: 0 0 16px;
   color: var(--color-text);
-  opacity: 0.8;
-  line-height: 1.6;
 }
 
 .person-card__sns {
@@ -635,11 +620,6 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
 
 .sns-link--linkedin:hover {
   background: #0a66c2;
-  color: #fff;
-}
-
-.sns-link--website:hover {
-  background: var(--color-link);
   color: #fff;
 }
 
