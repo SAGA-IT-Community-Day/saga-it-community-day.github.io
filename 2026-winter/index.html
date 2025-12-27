@@ -137,6 +137,15 @@
             }
           });
           
+          // コミュニティリストの更新
+          const communityItems = document.querySelectorAll('.person-card__communities-list li[data-ja]');
+          communityItems.forEach(item => {
+            const text = item.getAttribute(`data-${lang}`);
+            if (text) {
+              item.textContent = text;
+            }
+          });
+          
           // メタディスクリプションの更新
           const metaDescription = document.querySelector('meta[name="description"]');
           if (metaDescription) {
@@ -603,7 +612,7 @@
             </div>
             
             <div class="community-card">
-              <h3 class="community-card__title">HAGAKURE PROGRAMMING塾</h3>
+              <h3 class="community-card__title" data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</h3>
               <p class="community-card__description" data-ja="佐賀県内で世代・職業を超えて同志とともに楽しく成長するプログラミング塾です。みんな塾生、みんな先生。アウトプットすることで「自分の学び」を「みんなの学び」へ。" data-en="A programming school in Saga Prefecture where people of all generations and professions grow together as comrades. Everyone is both a student and a teacher, sharing knowledge through output.">佐賀県内で世代・職業を超えて同志とともに楽しく成長するプログラミング塾です。みんな塾生、みんな先生。アウトプットすることで「自分の学び」を「みんなの学び」へ。</p>
               <div class="community-card__links">
                 <a href="https://www.saga-smart.jp/community/hagakure-programming/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
@@ -614,7 +623,7 @@
             </div>
             
             <div class="community-card">
-              <h3 class="community-card__title">JAWS-UG佐賀</h3>
+              <h3 class="community-card__title" data-ja="JAWS-UG佐賀" data-en="JAWS-UG Saga">JAWS-UG佐賀</h3>
               <p class="community-card__description" data-ja="Amazon Web Services（AWS）のユーザグループ、JAWS-UGの佐賀支部です。AWSに興味がある方、初心者の方も大歓迎。佐賀県内外からの参加者を歓迎しています。" data-en="JAWS-UG Saga is the Saga branch of JAWS-UG, an Amazon Web Services (AWS) user group. We welcome AWS enthusiasts and beginners from inside and outside Saga Prefecture.">Amazon Web Services（AWS）のユーザグループ、JAWS-UGの佐賀支部です。AWSに興味がある方、初心者の方も大歓迎。佐賀県内外からの参加者を歓迎しています。</p>
               <div class="community-card__links">
                 <a href="https://www.saga-smart.jp/community/jaws-ug-saga/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
@@ -625,7 +634,7 @@
             </div>
             
             <div class="community-card">
-              <h3 class="community-card__title">JBUG佐賀</h3>
+              <h3 class="community-card__title" data-ja="JBUG佐賀" data-en="JBUG Saga">JBUG佐賀</h3>
               <p class="community-card__description" data-ja="Japan Backlog User Groupの佐賀支部です。Backlogに関する情報交換や勉強会を開催し、佐賀県内の開発者のスキル向上とコミュニティ形成を支援しています。" data-en="Japan Backlog User Group Saga branch. We organize information exchange and study sessions on Backlog, supporting skill development and community building among developers in Saga Prefecture.">Japan Backlog User Groupの佐賀支部です。Backlogに関する情報交換や勉強会を開催し、佐賀県内の開発者のスキル向上とコミュニティ形成を支援しています。</p>
               <div class="community-card__links">
                 <a href="https://www.saga-smart.jp/community/jbug/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
@@ -634,7 +643,7 @@
             </div>
             
             <div class="community-card">
-              <h3 class="community-card__title">ハックツハッカソンコミュニティ</h3>
+              <h3 class="community-card__title" data-ja="ハックツハッカソンコミュニティ" data-en="Hack'z HACKATHON Community">ハックツハッカソンコミュニティ</h3>
               <p class="community-card__description" data-ja="ハッカソンを通じて技術者同士の交流とスキルアップを図るコミュニティです。様々なレベルの参加者が集まり、協力してプロダクトを開発する場を提供しています。" data-en="A community that promotes networking and skill development among engineers through hackathons. We provide opportunities for participants of various levels to collaborate and develop products together.">ハッカソンを通じて技術者同士の交流とスキルアップを図るコミュニティです。様々なレベルの参加者が集まり、協力してプロダクトを開発する場を提供しています。</p>
               <div class="community-card__links">
                 <a href="https://www.saga-smart.jp/community/hakkutsu-hackathon/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
@@ -643,7 +652,7 @@
             </div>
             
             <div class="community-card">
-              <h3 class="community-card__title">ローコードツール勉強会</h3>
+              <h3 class="community-card__title" data-ja="ローコードツール勉強会" data-en="Low Code Study Session">ローコードツール勉強会</h3>
               <p class="community-card__description" data-ja="主にマイクロソフトのローコードツールであるPower Platformのうち、Power Apps、Power Automate、Power BIを主に勉強する集まりです。基本はオンラインでの勉強会ですが、MAIC 佐賀での勉強会開催も予定しています。" data-en="A study group focusing mainly on Microsoft's low-code tools from Power Platform, including Power Apps, Power Automate, and Power BI. Primarily online study sessions with plans for in-person meetings at MAIC Saga.">主にマイクロソフトのローコードツールであるPower Platformのうち、Power Apps、Power Automate、Power BIを主に勉強する集まりです。基本はオンラインでの勉強会ですが、MAIC 佐賀での勉強会開催も予定しています。</p>
               <div class="community-card__links">
                 <a href="https://www.saga-smart.jp/community/power-bi/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
@@ -652,7 +661,7 @@
             </div>
             
             <div class="community-card">
-              <h3 class="community-card__title">CoderDojo さが</h3>
+              <h3 class="community-card__title" data-ja="CoderDojo さが" data-en="CoderDojo Saga">CoderDojo さが</h3>
               <p class="community-card__description" data-ja="月1回、4歳児～高校生を対象としたプログラミング勉強会と、その保護者を対象としたICTリテラシーの勉強会を開催しています。参加費無料。各種子供向けコンテストの応募支援も行っています。" data-en="We hold monthly programming study sessions for children aged 4 to high school students, as well as ICT literacy study sessions for their parents. Free participation. We also support applications for various children's contests.">月1回、4歳児～高校生を対象としたプログラミング勉強会と、その保護者を対象としたICTリテラシーの勉強会を開催しています。参加費無料。各種子供向けコンテストの応募支援も行っています。</p>
               <div class="community-card__links">
                 <a href="https://www.saga-smart.jp/community/coderdojosaga/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
@@ -756,6 +765,19 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                 </a>
               </div>
+              <div class="person-card__communities">
+                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+                <ul class="person-card__communities-list">
+                  <li data-ja="JAWS-UG佐賀 ★" data-en="JAWS-UG Saga ★">JAWS-UG佐賀 ★</li>
+                  <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</li>
+                  <li data-ja="ローコードツール勉強会" data-en="Low Code Study Session">ローコードツール勉強会</li>
+                  <li>ALL-IN GAS</li>
+                  <li data-ja="CoderDojoさが ★" data-en="CoderDojo Saga ★">CoderDojoさが ★</li>
+                  <li data-ja="ハックツハッカソン" data-en="Hack'z HACKATHON">ハックツハッカソン</li>
+                  <li data-ja="JBUG佐賀" data-en="JBUG Saga">JBUG佐賀</li>
+                </ul>
+                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+              </div>
             </div>
             
             <div class="person-card">
@@ -768,6 +790,13 @@
               </div>
               <h3 class="person-card__name" data-ja="井上 司" data-en="Tsukasa Inoue">井上 司</h3>
               <p class="person-card__role" data-ja="配信" data-en="Streaming">配信</p>
+              <div class="person-card__communities">
+                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+                <ul class="person-card__communities-list">
+                  <li data-ja="ローコードツール勉強会 ★" data-en="Low Code Study Session ★">ローコードツール勉強会 ★</li>
+                </ul>
+                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+              </div>
             </div>
             
             <div class="person-card">
@@ -786,6 +815,14 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                 </a>
               </div>
+              <div class="person-card__communities">
+                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+                <ul class="person-card__communities-list">
+                  <li data-ja="HAGAKURE PROGRAMMING塾 ★" data-en="HAGAKURE PROGRAMMING Cram School ★">HAGAKURE PROGRAMMING塾 ★</li>
+                  <li>ALL-IN GAS</li>
+                </ul>
+                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+              </div>
             </div>
             
             <div class="person-card">
@@ -798,6 +835,33 @@
               <h3 class="person-card__name" data-ja="田代 拓也" data-en="Takuya Tashiro">田代 拓也</h3>
               <p class="person-card__role" data-ja="会場" data-en="Venue">会場</p>
               <p class="person-card__comment" data-ja="よろしくおねがいします" data-en="Nice to meet you">よろしくおねがいします</p>
+              <div class="person-card__communities">
+                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+                <ul class="person-card__communities-list">
+                  <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</li>
+                  <li data-ja="CoderDojoさが ★" data-en="CoderDojo Saga ★">CoderDojoさが ★</li>
+                </ul>
+                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+              </div>
+            </div>
+            
+            <div class="person-card">
+              <div class="person-card__avatar">
+                <img src="picture/page/staff/terawaki.png" alt="寺脇 千登勢 / Chitose Terawaki" />
+                <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3"/>
+                  <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/>
+                </svg>
+              </div>
+              <h3 class="person-card__name" data-ja="寺脇 千登勢" data-en="Chitose Terawaki">寺脇 千登勢</h3>
+              <p class="person-card__role" data-ja="配信" data-en="Streaming">配信</p>
+              <div class="person-card__communities">
+                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+                <ul class="person-card__communities-list">
+                  <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</li>
+                </ul>
+                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+              </div>
             </div>
           </div>
         </div>

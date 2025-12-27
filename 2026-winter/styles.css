@@ -585,8 +585,61 @@ details.faq > summary { cursor: pointer; font-weight: 700; }
 .person-card__name {
   font-size: 18px;
   font-weight: 700;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   color: var(--color-text);
+}
+
+.person-card__role {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--color-primary);
+}
+
+.person-card__communities {
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.person-card__communities-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.person-card__communities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.person-card__communities-list li {
+  margin: 4px 0;
+  padding-left: 0;
+  color: var(--color-text);
+}
+
+.person-card__communities-note {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: var(--color-text);
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.person-card__comment {
+  font-size: 13px;
+  color: var(--color-text);
+  opacity: 0.8;
+  margin: 12px 0 0;
+  font-style: italic;
 }
 
 .person-card__sns {
