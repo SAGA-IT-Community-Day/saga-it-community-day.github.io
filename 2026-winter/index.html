@@ -1,694 +1,827 @@
 <!doctype html>
 <html lang="{{ page.lang | default: 'ja' }}" data-theme="light">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com data:; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org https://www.youtube.com; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev;">
-    <meta name="copyright" content="© 2026 Saga IT Community Day Committee. All rights reserved.">
-    <title>SAGA IT Community Day</title>
-    <meta name="description" content="佐賀県下で活動しているITコミュニティ（SAGA IT Community : https://www.saga-smart.jp/community/  ）で活動しているコミュニティ有志で企画しています。" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles.css" />
-    <script>
-      // 改ざん防止・著作権保護
-      (function() {
-        'use strict';
-        // 右クリック無効化
-        document.addEventListener('contextmenu', function(e) {
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com data:; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org https://www.youtube.com; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev;">
+  <meta name="copyright" content="© 2026 Saga IT Community Day Committee. All rights reserved.">
+  <title>SAGA IT Community Day</title>
+  <meta name="description"
+    content="佐賀県下で活動しているITコミュニティ（SAGA IT Community : https://www.saga-smart.jp/community/  ）で活動しているコミュニティ有志で企画しています。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // 改ざん防止・著作権保護
+    (function () {
+      'use strict';
+      // 右クリック無効化
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        return false;
+      });
+      // キーボードショートカット無効化（F12, Ctrl+Shift+I, Ctrl+U等）
+      document.addEventListener('keydown', function (e) {
+        // F12
+        if (e.keyCode === 123) {
           e.preventDefault();
           return false;
+        }
+        // Ctrl+Shift+I (開発者ツール)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+J (コンソール)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+U (ソース表示)
+        if (e.ctrlKey && e.keyCode === 85) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+S (保存)
+        if (e.ctrlKey && e.keyCode === 83) {
+          e.preventDefault();
+          return false;
+        }
+      });
+      // 開発者ツール検出（簡易版）
+      let devtools = { open: false, orientation: null };
+      setInterval(function () {
+        if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+          if (!devtools.open) {
+            devtools.open = true;
+            console.clear();
+            console.log('%c警告', 'color: red; font-size: 50px; font-weight: bold;');
+            console.log('%cこのサイトのソースコードを改ざんすることは法律で禁止されています。', 'color: red; font-size: 16px;');
+            console.log('%c© 2026 Saga IT Community Day Committee. All rights reserved.', 'color: #666; font-size: 12px;');
+          }
+        } else {
+          devtools.open = false;
+        }
+      }, 500);
+      // テキスト選択の制限（コピー防止）
+      document.addEventListener('selectstart', function (e) {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          return false;
+        }
+      });
+    })();
+
+    // テーマとi18nの初期化
+    document.addEventListener('DOMContentLoaded', function () {
+      // ダークモードの初期化
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+
+      // 言語の初期化
+      const savedLang = localStorage.getItem('language') || 'ja';
+      document.documentElement.setAttribute('data-lang', savedLang);
+
+      // テーマ切り替え機能
+      window.toggleTheme = function () {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeButton();
+      };
+
+      // 言語切り替え機能
+      window.toggleLanguage = function () {
+        const currentLang = document.documentElement.getAttribute('data-lang');
+        const newLang = currentLang === 'ja' ? 'en' : 'ja';
+        document.documentElement.setAttribute('data-lang', newLang);
+        localStorage.setItem('language', newLang);
+        updateLanguageButton();
+        updateContent();
+      };
+
+      // テーマボタンの更新
+      function updateThemeButton() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const button = document.getElementById('theme-toggle');
+        if (button) {
+          button.textContent = theme === 'light' ? '🌙' : '☀️';
+          button.setAttribute('aria-label', theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え');
+        }
+      }
+
+      // 言語ボタンの更新
+      function updateLanguageButton() {
+        const lang = document.documentElement.getAttribute('data-lang');
+        const button = document.getElementById('language-toggle');
+        if (button) {
+          button.textContent = lang === 'ja' ? 'EN' : '日本語';
+        }
+      }
+
+      // コンテンツの更新
+      function updateContent() {
+        const lang = document.documentElement.getAttribute('data-lang');
+        const elements = document.querySelectorAll('[data-ja], [data-en]');
+        elements.forEach(element => {
+          // 閲覧者数表示は除外（updateViewerCount()で個別に処理）
+          if (element.id === 'viewer-count') {
+            return;
+          }
+          const text = element.getAttribute(`data-${lang}`);
+          if (text) {
+            element.textContent = text;
+          }
         });
-        // キーボードショートカット無効化（F12, Ctrl+Shift+I, Ctrl+U等）
-        document.addEventListener('keydown', function(e) {
-          // F12
-          if (e.keyCode === 123) {
-            e.preventDefault();
-            return false;
-          }
-          // Ctrl+Shift+I (開発者ツール)
-          if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-            e.preventDefault();
-            return false;
-          }
-          // Ctrl+Shift+J (コンソール)
-          if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-            e.preventDefault();
-            return false;
-          }
-          // Ctrl+U (ソース表示)
-          if (e.ctrlKey && e.keyCode === 85) {
-            e.preventDefault();
-            return false;
-          }
-          // Ctrl+S (保存)
-          if (e.ctrlKey && e.keyCode === 83) {
-            e.preventDefault();
-            return false;
+
+        // コミュニティリストの更新
+        const communityItems = document.querySelectorAll('.person-card__communities-list li[data-ja]');
+        communityItems.forEach(item => {
+          const text = item.getAttribute(`data-${lang}`);
+          if (text) {
+            item.textContent = text;
           }
         });
-        // 開発者ツール検出（簡易版）
-        let devtools = {open: false, orientation: null};
-        setInterval(function() {
-          if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
-            if (!devtools.open) {
-              devtools.open = true;
-              console.clear();
-              console.log('%c警告', 'color: red; font-size: 50px; font-weight: bold;');
-              console.log('%cこのサイトのソースコードを改ざんすることは法律で禁止されています。', 'color: red; font-size: 16px;');
-              console.log('%c© 2026 Saga IT Community Day Committee. All rights reserved.', 'color: #666; font-size: 12px;');
-            }
+
+        // メタディスクリプションの更新
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          if (lang === 'ja') {
+            metaDescription.setAttribute('content', '佐賀県下で活動しているITコミュニティ（SAGA IT Community : https://www.saga-smart.jp/community/  ）で活動しているコミュニティ有志で企画しています。');
           } else {
-            devtools.open = false;
-          }
-        }, 500);
-        // テキスト選択の制限（コピー防止）
-        document.addEventListener('selectstart', function(e) {
-          if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-            e.preventDefault();
-            return false;
-          }
-        });
-      })();
-      
-      // テーマとi18nの初期化
-      document.addEventListener('DOMContentLoaded', function() {
-        // ダークモードの初期化
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        
-        // 言語の初期化
-        const savedLang = localStorage.getItem('language') || 'ja';
-        document.documentElement.setAttribute('data-lang', savedLang);
-        
-        // テーマ切り替え機能
-        window.toggleTheme = function() {
-          const currentTheme = document.documentElement.getAttribute('data-theme');
-          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-          document.documentElement.setAttribute('data-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-          updateThemeButton();
-        };
-        
-        // 言語切り替え機能
-        window.toggleLanguage = function() {
-          const currentLang = document.documentElement.getAttribute('data-lang');
-          const newLang = currentLang === 'ja' ? 'en' : 'ja';
-          document.documentElement.setAttribute('data-lang', newLang);
-          localStorage.setItem('language', newLang);
-          updateLanguageButton();
-          updateContent();
-        };
-        
-        // テーマボタンの更新
-        function updateThemeButton() {
-          const theme = document.documentElement.getAttribute('data-theme');
-          const button = document.getElementById('theme-toggle');
-          if (button) {
-            button.textContent = theme === 'light' ? '🌙' : '☀️';
-            button.setAttribute('aria-label', theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え');
+            metaDescription.setAttribute('content', 'This event is being planned by volunteers from the SAGA IT Community ( https://www.saga-smart.jp/community/), an IT community active in Saga Prefecture.');
           }
         }
-        
-        // 言語ボタンの更新
-        function updateLanguageButton() {
-          const lang = document.documentElement.getAttribute('data-lang');
-          const button = document.getElementById('language-toggle');
-          if (button) {
-            button.textContent = lang === 'ja' ? 'EN' : '日本語';
-          }
+
+        // 閲覧者数の更新（言語に合わせて数値部分を再生成）
+        updateViewerCount();
+      }
+
+      // コミュニティ表示切り替え機能
+      window.toggleCommunityView = function (viewType) {
+        const grid = document.getElementById('communities-grid');
+        const cardBtn = document.getElementById('view-card-btn');
+        const listBtn = document.getElementById('view-list-btn');
+
+        if (viewType === 'list') {
+          grid.classList.add('communities-list');
+          grid.classList.remove('communities-grid');
+          if (cardBtn) cardBtn.classList.remove('active');
+          if (listBtn) listBtn.classList.add('active');
+          localStorage.setItem('communityView', 'list');
+        } else {
+          grid.classList.remove('communities-list');
+          grid.classList.add('communities-grid');
+          if (cardBtn) cardBtn.classList.add('active');
+          if (listBtn) listBtn.classList.remove('active');
+          localStorage.setItem('communityView', 'card');
         }
-        
-        // コンテンツの更新
-        function updateContent() {
-          const lang = document.documentElement.getAttribute('data-lang');
-          const elements = document.querySelectorAll('[data-ja], [data-en]');
-          elements.forEach(element => {
-            // 閲覧者数表示は除外（updateViewerCount()で個別に処理）
-            if (element.id === 'viewer-count') {
-              return;
-            }
-            const text = element.getAttribute(`data-${lang}`);
-            if (text) {
-              element.textContent = text;
-            }
-          });
-          
-          // コミュニティリストの更新
-          const communityItems = document.querySelectorAll('.person-card__communities-list li[data-ja]');
-          communityItems.forEach(item => {
-            const text = item.getAttribute(`data-${lang}`);
-            if (text) {
-              item.textContent = text;
-            }
-          });
-          
-          // メタディスクリプションの更新
-          const metaDescription = document.querySelector('meta[name="description"]');
-          if (metaDescription) {
-            if (lang === 'ja') {
-              metaDescription.setAttribute('content', '佐賀県下で活動しているITコミュニティ（SAGA IT Community : https://www.saga-smart.jp/community/  ）で活動しているコミュニティ有志で企画しています。');
-            } else {
-              metaDescription.setAttribute('content', 'This event is being planned by volunteers from the SAGA IT Community ( https://www.saga-smart.jp/community/), an IT community active in Saga Prefecture.');
-            }
-          }
-          
-          // 閲覧者数の更新（言語に合わせて数値部分を再生成）
-          updateViewerCount();
-        }
-        
-        // コミュニティ表示切り替え機能
-        window.toggleCommunityView = function(viewType) {
-          const grid = document.getElementById('communities-grid');
-          const cardBtn = document.getElementById('view-card-btn');
-          const listBtn = document.getElementById('view-list-btn');
-          
-          if (viewType === 'list') {
-            grid.classList.add('communities-list');
-            grid.classList.remove('communities-grid');
-            if (cardBtn) cardBtn.classList.remove('active');
-            if (listBtn) listBtn.classList.add('active');
-            localStorage.setItem('communityView', 'list');
+      };
+
+      // コミュニティ表示の初期化
+      const savedView = localStorage.getItem('communityView') || 'card';
+      if (savedView === 'list') {
+        setTimeout(() => window.toggleCommunityView('list'), 100);
+      }
+
+      // 現在の閲覧者数を表示する機能
+      function updateViewerCount() {
+        const viewerCountText = document.querySelector('#viewer-count .viewer-count-text');
+        if (viewerCountText) {
+          // 1〜3のランダムな数値を生成（0を避けるため）
+          const count = Math.floor(Math.random() * 3) + 1; // 1, 2, 3
+          const lang = document.documentElement.getAttribute('data-lang') || 'ja';
+
+          if (lang === 'ja') {
+            viewerCountText.textContent = `今このサイトを見ている人が${count}人います`;
           } else {
-            grid.classList.remove('communities-list');
-            grid.classList.add('communities-grid');
-            if (cardBtn) cardBtn.classList.add('active');
-            if (listBtn) listBtn.classList.remove('active');
-            localStorage.setItem('communityView', 'card');
-          }
-        };
-        
-        // コミュニティ表示の初期化
-        const savedView = localStorage.getItem('communityView') || 'card';
-        if (savedView === 'list') {
-          setTimeout(() => window.toggleCommunityView('list'), 100);
-        }
-        
-        // 現在の閲覧者数を表示する機能
-        function updateViewerCount() {
-          const viewerCountText = document.querySelector('#viewer-count .viewer-count-text');
-          if (viewerCountText) {
-            // 1〜3のランダムな数値を生成（0を避けるため）
-            const count = Math.floor(Math.random() * 3) + 1; // 1, 2, 3
-            const lang = document.documentElement.getAttribute('data-lang') || 'ja';
-            
-            if (lang === 'ja') {
-              viewerCountText.textContent = `今このサイトを見ている人が${count}人います`;
-            } else {
-              viewerCountText.textContent = `${count} people are currently viewing this site`;
-            }
+            viewerCountText.textContent = `${count} people are currently viewing this site`;
           }
         }
-        
-        // 閲覧者数を定期的に更新（30秒ごと）
-        setInterval(updateViewerCount, 30000);
-        
-        // ハンバーガーメニューの開閉機能
-        const hamburgerToggle = document.getElementById('hamburger-toggle');
-        const mainNav = document.getElementById('main-nav');
-        let overlay = null;
-        
-        function createOverlay() {
-          if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'nav-overlay';
-            overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;';
-            document.body.appendChild(overlay);
-            overlay.addEventListener('click', closeMenu);
-          }
-          return overlay;
+      }
+
+      // 閲覧者数を定期的に更新（30秒ごと）
+      setInterval(updateViewerCount, 30000);
+
+      // ハンバーガーメニューの開閉機能
+      const hamburgerToggle = document.getElementById('hamburger-toggle');
+      const mainNav = document.getElementById('main-nav');
+      let overlay = null;
+
+      function createOverlay() {
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.className = 'nav-overlay';
+          overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;';
+          document.body.appendChild(overlay);
+          overlay.addEventListener('click', closeMenu);
         }
-        
-        function closeMenu() {
-          if (hamburgerToggle && mainNav) {
-            hamburgerToggle.setAttribute('aria-expanded', 'false');
-            mainNav.classList.remove('nav--open');
-            hamburgerToggle.classList.remove('hamburger--active');
-            if (overlay) {
-              overlay.style.display = 'none';
-            }
-          }
-        }
-        
+        return overlay;
+      }
+
+      function closeMenu() {
         if (hamburgerToggle && mainNav) {
-          createOverlay();
-          
-          hamburgerToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isExpanded = hamburgerToggle.getAttribute('aria-expanded') === 'true';
-            hamburgerToggle.setAttribute('aria-expanded', !isExpanded);
-            mainNav.classList.toggle('nav--open');
-            hamburgerToggle.classList.toggle('hamburger--active');
-            
-            if (!isExpanded && window.innerWidth <= 768) {
-              overlay.style.display = 'block';
-            } else {
-              overlay.style.display = 'none';
-            }
-          });
-          
-          // メニューリンクをクリックしたときにメニューを閉じる（モバイル時）
-          const navLinks = mainNav.querySelectorAll('a');
-          navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-              if (window.innerWidth <= 768) {
-                closeMenu();
-              }
-            });
-          });
-          
-          // ウィンドウリサイズ時にメニューを閉じる
-          window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
+          hamburgerToggle.setAttribute('aria-expanded', 'false');
+          mainNav.classList.remove('nav--open');
+          hamburgerToggle.classList.remove('hamburger--active');
+          if (overlay) {
+            overlay.style.display = 'none';
+          }
+        }
+      }
+
+      if (hamburgerToggle && mainNav) {
+        createOverlay();
+
+        hamburgerToggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          const isExpanded = hamburgerToggle.getAttribute('aria-expanded') === 'true';
+          hamburgerToggle.setAttribute('aria-expanded', !isExpanded);
+          mainNav.classList.toggle('nav--open');
+          hamburgerToggle.classList.toggle('hamburger--active');
+
+          if (!isExpanded && window.innerWidth <= 768) {
+            overlay.style.display = 'block';
+          } else {
+            overlay.style.display = 'none';
+          }
+        });
+
+        // メニューリンクをクリックしたときにメニューを閉じる（モバイル時）
+        const navLinks = mainNav.querySelectorAll('a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', function () {
+            if (window.innerWidth <= 768) {
               closeMenu();
             }
           });
-        }
-        
-        // 初期化
-        updateThemeButton();
-        updateLanguageButton();
-        updateContent();
-        // 閲覧者数を初期表示（updateContent()の後に呼ぶことで確実に更新される）
-        updateViewerCount();
-        
-        // マウスカーソル追従エフェクト
-        let lastTrailTime = 0;
-        const trailInterval = 16; // 約60fps
-        
-        function createCursorTrail(x, y, type = 'normal') {
-          const now = Date.now();
-          if (type === 'normal' && now - lastTrailTime < trailInterval) {
-            return;
-          }
-          lastTrailTime = now;
-          
-          const trail = document.createElement('div');
-          trail.className = `cursor-trail ${type}`;
-          trail.style.left = x + 'px';
-          trail.style.top = y + 'px';
-          document.body.appendChild(trail);
-          
-          if (type === 'sparkle' || type === 'click') {
-            setTimeout(() => {
-              trail.remove();
-            }, 600);
-          } else {
-            setTimeout(() => {
-              trail.style.opacity = '0';
-              setTimeout(() => trail.remove(), 300);
-            }, 100);
-          }
-        }
-        
-        let lastX = 0;
-        let lastY = 0;
-        let sparkleCounter = 0;
-        
-        document.addEventListener('mousemove', function(e) {
-          const x = e.clientX;
-          const y = e.clientY;
-          
-          // 通常のトレイル
-          createCursorTrail(x, y, 'normal');
-          
-          // 時々閃きエフェクトを出す
-          sparkleCounter++;
-          if (sparkleCounter % 10 === 0) {
-            createCursorTrail(x + (Math.random() - 0.5) * 20, y + (Math.random() - 0.5) * 20, 'sparkle');
-          }
-          
-          lastX = x;
-          lastY = y;
         });
-        
-        document.addEventListener('click', function(e) {
-          // クリック時にキラッと光る演出
-          createCursorTrail(e.clientX, e.clientY, 'click');
-          
-          // 周囲にも小さな閃きを追加
-          for (let i = 0; i < 3; i++) {
-            setTimeout(() => {
-              const angle = (Math.PI * 2 * i) / 3;
-              const distance = 15;
-              createCursorTrail(
-                e.clientX + Math.cos(angle) * distance,
-                e.clientY + Math.sin(angle) * distance,
-                'sparkle'
-              );
-            }, i * 50);
+
+        // ウィンドウリサイズ時にメニューを閉じる
+        window.addEventListener('resize', function () {
+          if (window.innerWidth > 768) {
+            closeMenu();
           }
         });
+      }
+
+      // 初期化
+      updateThemeButton();
+      updateLanguageButton();
+      updateContent();
+      // 閲覧者数を初期表示（updateContent()の後に呼ぶことで確実に更新される）
+      updateViewerCount();
+
+      // マウスカーソル追従エフェクト
+      let lastTrailTime = 0;
+      const trailInterval = 16; // 約60fps
+
+      function createCursorTrail(x, y, type = 'normal') {
+        const now = Date.now();
+        if (type === 'normal' && now - lastTrailTime < trailInterval) {
+          return;
+        }
+        lastTrailTime = now;
+
+        const trail = document.createElement('div');
+        trail.className = `cursor-trail ${type}`;
+        trail.style.left = x + 'px';
+        trail.style.top = y + 'px';
+        document.body.appendChild(trail);
+
+        if (type === 'sparkle' || type === 'click') {
+          setTimeout(() => {
+            trail.remove();
+          }, 600);
+        } else {
+          setTimeout(() => {
+            trail.style.opacity = '0';
+            setTimeout(() => trail.remove(), 300);
+          }, 100);
+        }
+      }
+
+      let lastX = 0;
+      let lastY = 0;
+      let sparkleCounter = 0;
+
+      document.addEventListener('mousemove', function (e) {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // 通常のトレイル
+        createCursorTrail(x, y, 'normal');
+
+        // 時々閃きエフェクトを出す
+        sparkleCounter++;
+        if (sparkleCounter % 10 === 0) {
+          createCursorTrail(x + (Math.random() - 0.5) * 20, y + (Math.random() - 0.5) * 20, 'sparkle');
+        }
+
+        lastX = x;
+        lastY = y;
       });
-    </script>
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="#">SITCD</a>
-        <button class="hamburger" id="hamburger-toggle" aria-label="メニューを開く" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <nav class="nav" id="main-nav">
-          <a href="#about" data-ja="概要" data-en="About">概要</a>
-          <a href="#schedule" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
-          <a href="#registration" data-ja="参加登録" data-en="Registration">参加登録</a>
-          <a href="#venue" data-ja="会場" data-en="Venue">会場</a>
-          <a href="#community" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</a>
-          <a href="#staff" data-ja="運営" data-en="Staff">運営</a>
-          <a href="#faq" data-ja="FAQ" data-en="FAQ">FAQ</a>
-          <a href="tourism.html" data-ja="観光" data-en="Tourism">観光</a>
-          <a href="#contact" class="btn btn--nav" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
-          <button id="language-toggle" class="btn btn--ghost" onclick="toggleLanguage()">EN</button>
-          <button id="theme-toggle" class="btn btn--ghost" onclick="toggleTheme()" aria-label="ダークモードに切り替え">🌙</button>
-        </nav>
-      </div>
-    </header>
 
-    <!-- 閲覧者数表示（左側固定） -->
-    <div id="viewer-count" class="viewer-count-bubble" data-ja="今このサイトを見ている人が0人います" data-en="0 people are currently viewing this site">
-      <span class="viewer-count-text">今このサイトを見ている人が0人います</span>
+      document.addEventListener('click', function (e) {
+        // クリック時にキラッと光る演出
+        createCursorTrail(e.clientX, e.clientY, 'click');
+
+        // 周囲にも小さな閃きを追加
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            const angle = (Math.PI * 2 * i) / 3;
+            const distance = 15;
+            createCursorTrail(
+              e.clientX + Math.cos(angle) * distance,
+              e.clientY + Math.sin(angle) * distance,
+              'sparkle'
+            );
+          }, i * 50);
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#">SITCD</a>
+      <button class="hamburger" id="hamburger-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav" id="main-nav">
+        <a href="#about" data-ja="概要" data-en="About">概要</a>
+        <a href="#schedule" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+        <a href="#registration" data-ja="参加登録" data-en="Registration">参加登録</a>
+        <a href="#venue" data-ja="会場" data-en="Venue">会場</a>
+        <a href="#community" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</a>
+        <a href="#staff" data-ja="運営" data-en="Staff">運営</a>
+        <a href="#faq" data-ja="FAQ" data-en="FAQ">FAQ</a>
+        <a href="tourism.html" data-ja="観光" data-en="Tourism">観光</a>
+        <a href="live.html" data-ja="配信" data-en="Live">配信</a>
+        <a href="#contact" class="btn btn--nav" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+        <button id="language-toggle" class="btn btn--ghost" onclick="toggleLanguage()">EN</button>
+        <button id="theme-toggle" class="btn btn--ghost" onclick="toggleTheme()" aria-label="ダークモードに切り替え">🌙</button>
+      </nav>
     </div>
+  </header>
 
-    <main>
-      <section class="hero">
-        <div class="container">
-          <p class="eyebrow">Saga IT Community Day 2026</p>
-          <h1 class="hero__title" data-ja="佐賀のITコミュニティが集う2日間" data-en="Two days where Saga's IT community gathers">佐賀のITコミュニティが集う2日間</h1>
-          <p class="hero__meta" data-ja="Day1 2026年2月21日 / Day2 2026年2月22日" data-en="Day1 February 21, 2026 / Day2 February 22, 2026">Day1 2026年2月21日 / Day2 2026年2月22日</p>
-          <p class="hero__venue" data-ja="会場：LIGHTHOUSE（メイン会場）・スマート街なかラボ（サブ会場）" data-en="Venue: LIGHTHOUSE (Main) & Smart Machinaka Lab (Sub)">会場：LIGHTHOUSE（メイン会場）・スマート街なかラボ（サブ会場）</p>
-          <div class="hero__ctas">
-            <a href="#registration" class="btn btn--primary" data-ja="参加登録" data-en="Register">参加登録</a>
-            <a href="#schedule" class="btn btn--ghost" data-ja="タイムテーブル" data-en="Schedule">タイムテーブル</a>
-          </div>
+  <!-- 閲覧者数表示（左側固定） -->
+  <div id="viewer-count" class="viewer-count-bubble" data-ja="今このサイトを見ている人が0人います"
+    data-en="0 people are currently viewing this site">
+    <span class="viewer-count-text">今このサイトを見ている人が0人います</span>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow">Saga IT Community Day 2026</p>
+        <h1 class="hero__title" data-ja="佐賀のITコミュニティが集う2日間" data-en="Two days where Saga's IT community gathers">
+          佐賀のITコミュニティが集う2日間</h1>
+        <p class="hero__meta" data-ja="Day1 2026年2月21日 / Day2 2026年2月22日"
+          data-en="Day1 February 21, 2026 / Day2 February 22, 2026">Day1 2026年2月21日 / Day2 2026年2月22日</p>
+        <p class="hero__venue" data-ja="会場：LIGHTHOUSE（メイン会場）・スマート街なかラボ（サブ会場）"
+          data-en="Venue: LIGHTHOUSE (Main) & Smart Machinaka Lab (Sub)">会場：LIGHTHOUSE（メイン会場）・スマート街なかラボ（サブ会場）</p>
+        <div class="hero__ctas">
+          <a href="#registration" class="btn btn--primary" data-ja="参加登録" data-en="Register">参加登録</a>
+          <a href="#schedule" class="btn btn--ghost" data-ja="タイムテーブル" data-en="Schedule">タイムテーブル</a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="about" class="section">
-        <div class="container">
-          <div style="margin-bottom: 2rem; text-align: center;">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/icKySJ-wZcc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="max-width: 100%; height: auto; aspect-ratio: 560 / 315;"></iframe>
-          </div>
-          <h2 class="section__title" data-ja="概要" data-en="Event Overview">概要</h2>
-          
-          <div class="event-overview">
-            <div class="overview-card">
-              <h3 class="overview-card__title">Day1 - 2026年2月21日</h3>
-              <ul class="list">
-                <li><strong data-ja="メイン会場：" data-en="Main Venue: ">メイン会場：</strong><span data-ja="LIGHTHOUSE（TSUITACHI COFFEE 2F）" data-en="LIGHTHOUSE (TSUITACHI COFFEE 2F)">LIGHTHOUSE（TSUITACHI COFFEE 2F）</span></li>
-                <li><strong data-ja="メイン会場時間：" data-en="Main Venue Time: ">メイン会場時間：</strong>11:00-18:00（7時間）</li>
-                <li><strong data-ja="サブ会場：" data-en="Sub Venue: ">サブ会場：</strong><span data-ja="スマート街なかラボ" data-en="Smart Machinaka Lab">スマート街なかラボ</span></li>
-                <li><strong data-ja="サブ会場時間：" data-en="Sub Venue Time: ">サブ会場時間：</strong>11:00-16:00（5時間）</li>
-                <li><strong data-ja="内容：" data-en="Content: ">内容：</strong><span data-ja="交流・展示・コミュニティ紹介" data-en="Networking, Exhibition, Community Introduction">交流・展示・コミュニティ紹介</span></li>
-              </ul>
-            </div>
-            
-            <div class="overview-card">
-              <h3 class="overview-card__title">Day2 - 2026年2月22日</h3>
-              <ul class="list">
-                <li><strong data-ja="会場：" data-en="Venue: ">会場：</strong><span data-ja="LIGHTHOUSE（TSUITACHI COFFEE 2F）" data-en="LIGHTHOUSE (TSUITACHI COFFEE 2F)">LIGHTHOUSE（TSUITACHI COFFEE 2F）</span></li>
-                <li><strong data-ja="内容：" data-en="Content: ">内容：</strong><span data-ja="アイデアソン＋交流" data-en="Ideathon + Networking">アイデアソン＋交流</span></li>
-                <li><strong data-ja="時間：" data-en="Time: ">時間：</strong>13:00-16:00（3時間）</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="event-details">
+    <section id="about" class="section">
+      <div class="container">
+        <div style="margin-bottom: 2rem; text-align: center;">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/icKySJ-wZcc" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+            style="max-width: 100%; height: auto; aspect-ratio: 560 / 315;"></iframe>
+        </div>
+        <h2 class="section__title" data-ja="概要" data-en="Event Overview">概要</h2>
+
+        <div class="event-overview">
+          <div class="overview-card">
+            <h3 class="overview-card__title">Day1 - 2026年2月21日</h3>
             <ul class="list">
-              <li><strong data-ja="参加費：" data-en="Fee: ">参加費：</strong><span data-ja="無料" data-en="Free">無料</span></li>
-              <li><strong data-ja="お菓子・コーヒー代：" data-en="Snacks & Coffee: ">お菓子・コーヒー代：</strong><span data-ja="寄付制度（任意）" data-en="Donation system (optional)">寄付制度（任意）</span></li>
-              <li><strong data-ja="主催：" data-en="Organizer: ">主催：</strong>SAGA IT Community Day 2026 実行委員会（各コミュニティから有志）</li>
-              <li><strong data-ja="後援：" data-en="Support: ">後援：</strong><a href="https://www.saga-smart.jp/" target="_blank" rel="noopener">佐賀県産業スマート化センター</a></li>
+              <li><strong data-ja="メイン会場：" data-en="Main Venue: ">メイン会場：</strong><span
+                  data-ja="LIGHTHOUSE（TSUITACHI COFFEE 2F）"
+                  data-en="LIGHTHOUSE (TSUITACHI COFFEE 2F)">LIGHTHOUSE（TSUITACHI COFFEE 2F）</span></li>
+              <li><strong data-ja="メイン会場時間：" data-en="Main Venue Time: ">メイン会場時間：</strong>11:00-18:00（7時間）</li>
+              <li><strong data-ja="サブ会場：" data-en="Sub Venue: ">サブ会場：</strong><span data-ja="スマート街なかラボ"
+                  data-en="Smart Machinaka Lab">スマート街なかラボ</span></li>
+              <li><strong data-ja="サブ会場時間：" data-en="Sub Venue Time: ">サブ会場時間：</strong>11:00-16:00（5時間）</li>
+              <li><strong data-ja="内容：" data-en="Content: ">内容：</strong><span data-ja="交流・展示・コミュニティ紹介"
+                  data-en="Networking, Exhibition, Community Introduction">交流・展示・コミュニティ紹介</span></li>
             </ul>
-            <p class="note" data-ja="詳細な参加方法・注意事項は後日ご案内します。" data-en="Detailed participation methods and notes will be announced later.">詳細な参加方法・注意事項は後日ご案内します。</p>
+          </div>
+
+          <div class="overview-card">
+            <h3 class="overview-card__title">Day2 - 2026年2月22日</h3>
+            <ul class="list">
+              <li><strong data-ja="会場：" data-en="Venue: ">会場：</strong><span data-ja="LIGHTHOUSE（TSUITACHI COFFEE 2F）"
+                  data-en="LIGHTHOUSE (TSUITACHI COFFEE 2F)">LIGHTHOUSE（TSUITACHI COFFEE 2F）</span></li>
+              <li><strong data-ja="内容：" data-en="Content: ">内容：</strong><span data-ja="アイデアソン＋交流"
+                  data-en="Ideathon + Networking">アイデアソン＋交流</span></li>
+              <li><strong data-ja="時間：" data-en="Time: ">時間：</strong>13:00-16:00（3時間）</li>
+            </ul>
           </div>
         </div>
-      </section>
 
-      <section id="registration" class="section section--alt">
-        <div class="container">
-          <h2 class="section__title" data-ja="参加登録" data-en="Registration">参加登録</h2>
-          <p data-ja="各イベントへの参加登録は以下のリンクからお願いします。" data-en="Please register for each event using the links below.">各イベントへの参加登録は以下のリンクからお願いします。</p>
-          
-          <div class="registration-cards">
-            <div class="registration-card">
-              <h3 class="registration-card__title" data-ja="Day1 参加者登録" data-en="Day1 Registration">Day1 参加者登録</h3>
-              <p class="registration-card__date" data-ja="2026年2月21日（土）" data-en="Saturday, February 21, 2026">2026年2月21日（土）</p>
-              <a href="https://luma.com/zirhonbv" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
-            </div>
-            
-            <div class="registration-cards__break" aria-hidden="true"></div>
-            
-            <div class="registration-card">
-              <h3 class="registration-card__title" data-ja="Day1 簡易懇親会" data-en="Day1 Mini Networking">Day1 簡易懇親会</h3>
-              <p class="registration-card__date" data-ja="2026年2月21日（土）16:00-18:00" data-en="Saturday, February 21, 2026 16:00-18:00">2026年2月21日（土）16:00-18:00</p>
-              <a href="https://luma.com/dsoegmpo" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
-            </div>
-            
-            <div class="registration-card">
-              <h3 class="registration-card__title" data-ja="Day1 懇親会LT" data-en="Day1 Networking LT">Day1 懇親会LT</h3>
-              <p class="registration-card__date" data-ja="簡易懇親会でのLT登壇希望" data-en="LT speaker registration for mini networking">簡易懇親会でのLT登壇希望</p>
-              <p class="registration-card__note">簡易懇親会内LTは先着6名です。</p>
-              <p class="registration-card__note">6名超えた場合は Day1 懇親会に回します。</p>
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSejlDitm5JOcZ5IZJJhep-LEFxGxOjW35RswAQqXz_d22CD8g/viewform?referrer=luma" target="_blank" rel="noopener" class="btn btn--primary">登壇希望</a>
-            </div>
-            
-            <div class="registration-cards__break" aria-hidden="true"></div>
-            
-            <div class="registration-card">
-              <h3 class="registration-card__title" data-ja="Day1 懇親会" data-en="Day1 Networking">Day1 懇親会</h3>
-              <p class="registration-card__date" data-ja="2026年2月21日（土）19:00-21:00" data-en="Saturday, February 21, 2026 19:00-21:00">2026年2月21日（土）19:00-21:00</p>
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSebMxjsHh_vQzOyQIY8ukgJyi1DFE5hCz81Daa-QTseXweGUA/viewform" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
-            </div>
-            
-            <div class="registration-cards__break" aria-hidden="true"></div>
-            
-            <div class="registration-card">
-              <h3 class="registration-card__title" data-ja="Day2 参加者登録" data-en="Day2 Registration">Day2 参加者登録</h3>
-              <p class="registration-card__date" data-ja="2026年2月22日（日）" data-en="Sunday, February 22, 2026">2026年2月22日（日）</p>
-              <a href="https://luma.com/1k4704yt" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="target-audience" class="section section--alt">
-        <div class="container">
-          <h2 class="section__title" data-ja="対象者" data-en="Target Audience">対象者</h2>
-          <p data-ja="SAGA IT Community Day は、佐賀県内で IT やデジタルに興味のある方なら、どなたでも参加できる学びのイベントです。" data-en="SAGA IT Community Day is a learning event open to anyone interested in IT and digital in Saga Prefecture.">SAGA IT Community Day は、佐賀県内で IT やデジタルに興味のある方なら、どなたでも参加できる学びのイベントです。</p>
-          <p data-ja="次のような方におすすめです。" data-en="We recommend this event for the following people:">次のような方におすすめです。</p>
+        <div class="event-details">
           <ul class="list">
-            <li data-ja="佐賀県内で IT・デジタルの仕事に関わる方（開発・デザイン・AI・システム運用、ローコード／ノーコード、データ分析・業務改善など）" data-en="Those working in IT and digital in Saga Prefecture (development, design, AI, system operations, low-code/no-code, data analysis, business improvement, etc.)">佐賀県内で IT・デジタルの仕事に関わる方<br><span style="opacity: 0.8; font-size: 0.9em;">（開発・デザイン・AI・システム運用、ローコード／ノーコード、データ分析・業務改善など）</span></li>
-            <li data-ja="これから IT を学びたい県内の学生・社会人（高校・高専・大学の学生、独学中の方、プログラミングが好きな方）" data-en="Students and working adults in the prefecture who want to learn IT (high school, technical college, university students, self-learners, those who like programming)">これから IT を学びたい県内の学生・社会人<br><span style="opacity: 0.8; font-size: 0.9em;">（高校・高専・大学の学生、独学中の方、プログラミングが好きな方）</span></li>
-            <li data-ja="県内企業・団体・自治体・教育機関でデジタル活用に取り組みたい方（業務改善、データ活用、IT 導入、Google Workspace や GAS、Power Platform をもっと使いこなしたい担当者 など）" data-en="Those working on digital utilization at local companies, organizations, municipalities, and educational institutions (managers interested in business improvement, data utilization, IT introduction, those who want to make better use of Google Workspace, GAS, and Power Platform, etc.)">県内企業・団体・自治体・教育機関でデジタル活用に取り組みたい方<br><span style="opacity: 0.8; font-size: 0.9em;">（業務改善、データ活用、IT 導入、Google Workspace や GAS、Power Platform をもっと使いこなしたい担当者 など）</span></li>
-            <li data-ja="地域の学習会・創作活動に関わる方（プログラミング教室、勉強会 など）" data-en="Those involved in local study groups and creative activities (programming classes, study sessions, etc.)">地域の学習会・創作活動に関わる方<br><span style="opacity: 0.8; font-size: 0.9em;">（プログラミング教室、勉強会 など）</span></li>
-            <li data-ja="プログラミング／AI／IoT などを趣味や副業として始めてみたい個人の方" data-en="Individuals who want to start programming, AI, IoT, etc. as a hobby or side job">プログラミング／AI／IoT などを趣味や副業として始めてみたい個人の方</li>
-            <li data-ja="日常の仕事や地域活動で「IT に課題がある」「同じ悩みを持つ人とつながりたい」と感じている方" data-en="Those who feel 'there are IT issues' in their daily work or local activities, or 'want to connect with people who have the same concerns'">日常の仕事や地域活動で「IT に課題がある」「同じ悩みを持つ人とつながりたい」と感じている方</li>
-            <li data-ja="「コミュニティはちょっと怖い」「人脈づくりは苦手だけど、ゆるく関わってみたい」という方／「IT コミュニティってどんなところ？」と雰囲気を知りたい方" data-en="Those who think 'communities are a bit scary' or 'I'm not good at networking, but I'd like to get involved casually' / Those who want to know what IT communities are like">「コミュニティはちょっと怖い」「人脈づくりは苦手だけど、ゆるく関わってみたい」という方<br>／「IT コミュニティってどんなところ？」と雰囲気を知りたい方</li>
+            <li><strong data-ja="参加費：" data-en="Fee: ">参加費：</strong><span data-ja="無料" data-en="Free">無料</span></li>
+            <li><strong data-ja="お菓子・コーヒー代：" data-en="Snacks & Coffee: ">お菓子・コーヒー代：</strong><span data-ja="寄付制度（任意）"
+                data-en="Donation system (optional)">寄付制度（任意）</span></li>
+            <li><strong data-ja="主催：" data-en="Organizer: ">主催：</strong>SAGA IT Community Day 2026 実行委員会（各コミュニティから有志）
+            </li>
+            <li><strong data-ja="後援：" data-en="Support: ">後援：</strong><a href="https://www.saga-smart.jp/"
+                target="_blank" rel="noopener">佐賀県産業スマート化センター</a></li>
           </ul>
-          <p style="margin-top: 1.5rem;" data-ja="佐賀県内で「ちょっと面白そうだな」と思ったら、ぜひお越しください。" data-en="If you think 'this looks interesting' in Saga Prefecture, please come.">佐賀県内で「ちょっと面白そうだな」と思ったら、ぜひお越しください。</p>
-          <p data-ja="年齢・経験・職業は問いません。" data-en="Age, experience, and occupation are not a concern.">年齢・経験・職業は問いません。</p>
+          <p class="note" data-ja="詳細な参加方法・注意事項は後日ご案内します。"
+            data-en="Detailed participation methods and notes will be announced later.">詳細な参加方法・注意事項は後日ご案内します。</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="benefits" class="section">
-        <div class="container">
-          <h2 class="section__title" data-ja="参加すると" data-en="What You'll Gain">参加すると</h2>
-          <ul class="list">
-            <li data-ja="ITやデジタル技術について、初心者でもわかりやすく学べる（難しい話だけではなく、身近な視点で理解できる内容を用意しています）" data-en="Learn IT and digital technologies in an easy-to-understand way, even for beginners (we provide content that can be understood from familiar perspectives, not just difficult topics)">ITやデジタル技術について、初心者でもわかりやすく学べる<br><span style="opacity: 0.8; font-size: 0.9em;">難しい話だけではなく、身近な視点で理解できる内容を用意しています。</span></li>
-            <li data-ja="佐賀県内のITの取り組みや学びの環境がよくわかる（地域でどんな活動が行われているか、どこから参加できるかを把握できます）" data-en="Understand IT initiatives and learning environments in Saga Prefecture (you can see what activities are happening in the region and where you can participate)">佐賀県内のITの取り組みや学びの環境がよくわかる<br><span style="opacity: 0.8; font-size: 0.9em;">地域でどんな活動が行われているか、どこから参加できるかを把握できます。</span></li>
-            <li data-ja="「まずはやってみる」の一歩が踏み出せる（小さな発表や共有も歓迎される場で、学んだことを誰かに伝える体験ができます）" data-en="Take the first step to 'just try it out' (in a welcoming environment for small presentations and sharing, you can experience sharing what you've learned with others)">「まずはやってみる」の一歩が踏み出せる<br><span style="opacity: 0.8; font-size: 0.9em;">小さな発表や共有も歓迎される場で、学んだことを誰かに伝える体験ができます。</span></li>
-            <li data-ja="100回参加するより、1回登壇する価値に出会える（完成した成果でなくても、途中経過や小さな工夫が誰かの学びを生みます）" data-en="Discover the value of speaking once rather than attending 100 times (even if it's not a completed result, sharing progress or small ideas can create learning for others)">100回参加するより、1回登壇する価値に出会える<br><span style="opacity: 0.8; font-size: 0.9em;">完成した成果でなくても、途中経過や小さな工夫が誰かの学びを生みます。</span></li>
-            <li data-ja="初心者でも安心して参加できる雰囲気（気軽に相談できる環境で、ITに不慣れでも安心して過ごせます）" data-en="A welcoming atmosphere where beginners can participate with confidence (in an environment where you can easily ask questions, you can feel comfortable even if you're not familiar with IT)">初心者でも安心して参加できる雰囲気<br><span style="opacity: 0.8; font-size: 0.9em;">気軽に相談できる環境で、ITに不慣れでも安心して過ごせます。</span></li>
-          </ul>
-        </div>
-      </section>
+    <section id="registration" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title" data-ja="参加登録" data-en="Registration">参加登録</h2>
+        <p data-ja="各イベントへの参加登録は以下のリンクからお願いします。" data-en="Please register for each event using the links below.">
+          各イベントへの参加登録は以下のリンクからお願いします。</p>
 
-      <section id="schedule" class="section section--alt">
-        <div class="container">
-          <h2 class="section__title" data-ja="スケジュール" data-en="Schedule (Overview)">スケジュール</h2>
-          <div class="cards">
-            <article class="card">
-              <h3 class="card__eyebrow">Day1</h3>
-              <h4 class="card__title" data-ja="交流・展示・コミュニティ紹介" data-en="Networking, Exhibition, Community Introduction">交流・展示・コミュニティ紹介</h4>
-              <p class="card__meta" data-ja="メイン会場：LIGHTHOUSE / サブ会場：スマート街なかラボ" data-en="Main Venue: LIGHTHOUSE / Sub Venue: Smart Machinaka Lab">メイン会場：LIGHTHOUSE / サブ会場：スマート街なかラボ</p>
-              <ul class="list">
-                <li data-ja="11:00 開会・オープニング / 開場" data-en="11:00 Opening ceremony / Doors open">11:00 開会・オープニング / 開場</li>
-                <li data-ja="11:10–12:00 コミュニティ紹介（前半）" data-en="11:10–12:00 Community introduction (first half)">11:10–12:00 コミュニティ紹介（前半）</li>
-                <li data-ja="13:00–15:30 コミュニティ紹介（後半）＋ハンズオン" data-en="13:00–15:30 Community introduction (second half) + Hands-on">13:00–15:30 コミュニティ紹介（後半）＋ハンズオン</li>
-                <li data-ja="15:30–16:00 まとめ・クロージング" data-en="15:30–16:00 Summary & Closing">15:30–16:00 まとめ・クロージング</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3 class="card__eyebrow">Day2</h3>
-              <h4 class="card__title" data-ja="アイデアソン＋交流" data-en="Ideathon + Networking">アイデアソン＋交流</h4>
-              <ul class="list">
-                <li data-ja="13:00–13:30 受付・オープニング" data-en="13:00–13:30 Registration & Opening">13:00–13:30 受付・オープニング</li>
-                <li data-ja="13:30–13:50 趣旨説明・インプット" data-en="13:30–13:50 Purpose explanation & Input">13:30–13:50 趣旨説明・インプット</li>
-                <li data-ja="13:50–15:30 アイデア創出・ブラッシュアップ" data-en="13:50–15:30 Idea generation & Refinement">13:50–15:30 アイデア創出・ブラッシュアップ</li>
-                <li data-ja="15:30–16:30 成果発表" data-en="15:30–16:30 Results presentation">15:30–16:30 成果発表</li>
-              </ul>
-            </article>
+        <div class="registration-cards">
+          <div class="registration-card">
+            <h3 class="registration-card__title" data-ja="Day1 参加者登録" data-en="Day1 Registration">Day1 参加者登録</h3>
+            <p class="registration-card__date" data-ja="2026年2月21日（土）" data-en="Saturday, February 21, 2026">
+              2026年2月21日（土）</p>
+            <a href="https://luma.com/zirhonbv" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
           </div>
-          <p class="section__action"><a href="schedule.html" class="btn btn--ghost" data-ja="詳細なタイムテーブル" data-en="Detailed Timetable">詳細なタイムテーブル</a></p>
-        </div>
-      </section>
 
-      <section id="venue" class="section">
-        <div class="container">
-          <h2 class="section__title" data-ja="会場" data-en="Venue Information">会場</h2>
-          
-          <div class="venue-info">
-            <div class="venue-card">
-              <h3 class="venue-card__title" data-ja="メイン会場：LIGHTHOUSE" data-en="Main Venue: LIGHTHOUSE">メイン会場：LIGHTHOUSE</h3>
-              <p class="venue-card__description">
-                <a href="https://me-lighthouse.com/" target="_blank" rel="noopener">LIGHTHOUSE</a>
-              </p>
-              <p class="venue-card__address">〒840-0813 佐賀県佐賀市唐人２丁目４−２ 2F TSUITACHI COFFEE 2F</p>
-              <ul class="list">
-                <li><strong data-ja="Day1（2/21 土）：" data-en="Day1 (2/21 Sat): ">Day1（2/21 土）：</strong>11:00～18:00（7時間）</li>
-                <li><strong data-ja="Day2（2/22 日）：" data-en="Day2 (2/22 Sun): ">Day2（2/22 日）：</strong>11:00～16:00（5時間）</li>
-              </ul>
-            </div>
-            
-            <div class="venue-card">
-              <h3 class="venue-card__title" data-ja="サブ会場：スマート街なかラボ" data-en="Sub Venue: Smart Machinaka Lab">サブ会場：スマート街なかラボ</h3>
-              <p class="venue-card__description">
-                <a href="https://rdi.or.jp/smartmachinakalab" target="_blank" rel="noopener">スマート街なかラボ</a>
-              </p>
-              <p class="venue-card__address">〒840-0826 佐賀県佐賀市白山２丁目３−１６</p>
-              <ul class="list">
-                <li><strong data-ja="Day1（2/21 土）：" data-en="Day1 (2/21 Sat): ">Day1（2/21 土）：</strong>11:00～16:00（5時間）</li>
-              </ul>
-              <p class="note" data-ja="メイン会場とサブ会場の間は約280m、徒歩5分程度です。" data-en="The distance between the main venue and sub venue is approximately 280m, about a 5-minute walk.">メイン会場とサブ会場の間は約280m、徒歩5分程度です。</p>
-            </div>
+          <div class="registration-cards__break" aria-hidden="true"></div>
+
+          <div class="registration-card">
+            <h3 class="registration-card__title" data-ja="Day1 簡易懇親会" data-en="Day1 Mini Networking">Day1 簡易懇親会</h3>
+            <p class="registration-card__date" data-ja="2026年2月21日（土）16:00-18:00"
+              data-en="Saturday, February 21, 2026 16:00-18:00">2026年2月21日（土）16:00-18:00</p>
+            <a href="https://luma.com/dsoegmpo" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
           </div>
-          
-          <div class="map-container">
-            <h3 class="map-title" data-ja="会場地図" data-en="Venue Map">会場地図</h3>
-            <div class="map-wrapper">
-              <iframe 
-                src="https://www.openstreetmap.org/export/embed.html?bbox=130.2980,33.2540,130.3010,33.2580&layer=mapnik&marker=33.256137,130.299557"
-                width="100%" 
-                height="400" 
-                frameborder="0" 
-                style="border: 1px solid #ccc; border-radius: 8px;">
-              </iframe>
-            </div>
-            <p class="map-note">
-              <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=33.257187%2C130.299606%3B33.255132%2C130.299831#map=18/33.256137/130.299557" target="_blank" rel="noopener" data-ja="大きな地図で見る" data-en="View larger map">大きな地図で見る</a>
+
+          <div class="registration-card">
+            <h3 class="registration-card__title" data-ja="Day1 懇親会LT" data-en="Day1 Networking LT">Day1 懇親会LT</h3>
+            <p class="registration-card__date" data-ja="簡易懇親会でのLT登壇希望"
+              data-en="LT speaker registration for mini networking">簡易懇親会でのLT登壇希望</p>
+            <p class="registration-card__note">簡易懇親会内LTは先着6名です。</p>
+            <p class="registration-card__note">6名超えた場合は Day1 懇親会に回します。</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSejlDitm5JOcZ5IZJJhep-LEFxGxOjW35RswAQqXz_d22CD8g/viewform?referrer=luma"
+              target="_blank" rel="noopener" class="btn btn--primary">登壇希望</a>
+          </div>
+
+          <div class="registration-cards__break" aria-hidden="true"></div>
+
+          <div class="registration-card">
+            <h3 class="registration-card__title" data-ja="Day1 懇親会" data-en="Day1 Networking">Day1 懇親会</h3>
+            <p class="registration-card__date" data-ja="2026年2月21日（土）19:00-21:00"
+              data-en="Saturday, February 21, 2026 19:00-21:00">2026年2月21日（土）19:00-21:00</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSebMxjsHh_vQzOyQIY8ukgJyi1DFE5hCz81Daa-QTseXweGUA/viewform"
+              target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
+          </div>
+
+          <div class="registration-cards__break" aria-hidden="true"></div>
+
+          <div class="registration-card">
+            <h3 class="registration-card__title" data-ja="Day2 参加者登録" data-en="Day2 Registration">Day2 参加者登録</h3>
+            <p class="registration-card__date" data-ja="2026年2月22日（日）" data-en="Sunday, February 22, 2026">2026年2月22日（日）
             </p>
+            <a href="https://luma.com/1k4704yt" target="_blank" rel="noopener" class="btn btn--primary">登録する</a>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="community" class="section section--alt">
-        <div class="container">
-          <h2 class="section__title" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</h2>
-          <p data-ja="佐賀県下で活動しているITコミュニティが集まります。各コミュニティの活動内容や特徴をご紹介します。" data-en="IT communities active in Saga Prefecture will gather. We will introduce the activities and characteristics of each community.">佐賀県下で活動しているITコミュニティが集まります。各コミュニティの活動内容や特徴をご紹介します。</p>
-          
-          <div class="community-view-toggle">
-            <span data-ja="表示形式：" data-en="View: ">表示形式：</span>
-            <button id="view-card-btn" class="btn btn--ghost btn--view-toggle active" onclick="toggleCommunityView('card')">
-              <span data-ja="カード" data-en="Card">カード</span>
-            </button>
-            <button id="view-list-btn" class="btn btn--ghost btn--view-toggle" onclick="toggleCommunityView('list')">
-              <span data-ja="リスト" data-en="List">リスト</span>
-            </button>
-          </div>
-          
-          <div id="communities-grid" class="communities-grid">
-            <div class="community-card">
-              <h3 class="community-card__title">ALL-IN GAS</h3>
-              <p class="community-card__description" data-ja="Google Apps Script（GAS）を活用した業務効率化や自動化について学ぶコミュニティです。初心者から上級者まで、GASの可能性を一緒に探求していきます。" data-en="A community focused on learning about business efficiency and automation using Google Apps Script (GAS). We explore the possibilities of GAS together, from beginners to advanced users.">Google Apps Script（GAS）を活用した業務効率化や自動化について学ぶコミュニティです。初心者から上級者まで、GASの可能性を一緒に探求していきます。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/allingas/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://sites.google.com/view/all-in-gas/all-in-gas" class="link" target="_blank" rel="noopener" data-ja="Google Sites" data-en="Google Sites">Google Sites</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title">GABAITech</h3>
-              <p class="community-card__description" data-ja="佐賀県のIT技術者コミュニティです。最新技術の情報共有や勉強会を通じて、地域のIT技術者のスキルアップと交流を促進しています。" data-en="An IT engineer community in Saga Prefecture. We promote skill development and networking among local IT engineers through information sharing and study sessions on the latest technologies.">佐賀県のIT技術者コミュニティです。最新技術の情報共有や勉強会を通じて、地域のIT技術者のスキルアップと交流を促進しています。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/GABAITech/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://gabaitech.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass" data-en="Connpass">Connpass</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title" data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</h3>
-              <p class="community-card__description" data-ja="佐賀県内で世代・職業を超えて同志とともに楽しく成長するプログラミング塾です。みんな塾生、みんな先生。アウトプットすることで「自分の学び」を「みんなの学び」へ。" data-en="A programming school in Saga Prefecture where people of all generations and professions grow together as comrades. Everyone is both a student and a teacher, sharing knowledge through output.">佐賀県内で世代・職業を超えて同志とともに楽しく成長するプログラミング塾です。みんな塾生、みんな先生。アウトプットすることで「自分の学び」を「みんなの学び」へ。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/hagakure-programming/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://hagakurepgm.net/" class="link" target="_blank" rel="noopener" data-ja="公式サイト" data-en="Official Site">公式サイト</a>
-                <a href="https://x.com/hagakurepgm" class="link" target="_blank" rel="noopener" data-ja="X" data-en="X">X</a>
-                <a href="https://www.facebook.com/profile.php?id=100085682160764" class="link" target="_blank" rel="noopener" data-ja="Facebook" data-en="Facebook">Facebook</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title" data-ja="JAWS-UG佐賀" data-en="JAWS-UG Saga">JAWS-UG佐賀</h3>
-              <p class="community-card__description" data-ja="Amazon Web Services（AWS）のユーザグループ、JAWS-UGの佐賀支部です。AWSに興味がある方、初心者の方も大歓迎。佐賀県内外からの参加者を歓迎しています。" data-en="JAWS-UG Saga is the Saga branch of JAWS-UG, an Amazon Web Services (AWS) user group. We welcome AWS enthusiasts and beginners from inside and outside Saga Prefecture.">Amazon Web Services（AWS）のユーザグループ、JAWS-UGの佐賀支部です。AWSに興味がある方、初心者の方も大歓迎。佐賀県内外からの参加者を歓迎しています。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/jaws-ug-saga/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://sites.google.com/view/jawsug-saga" class="link" target="_blank" rel="noopener" data-ja="Google Sites" data-en="Google Sites">Google Sites</a>
-                <a href="https://jawsug-saga.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass" data-en="Connpass">Connpass</a>
-                <a href="https://www.facebook.com/profile.php?id=100071851614379" class="link" target="_blank" rel="noopener" data-ja="Facebook" data-en="Facebook">Facebook</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title" data-ja="JBUG佐賀" data-en="JBUG Saga">JBUG佐賀</h3>
-              <p class="community-card__description" data-ja="Japan Backlog User Groupの佐賀支部です。Backlogに関する情報交換や勉強会を開催し、佐賀県内の開発者のスキル向上とコミュニティ形成を支援しています。" data-en="Japan Backlog User Group Saga branch. We organize information exchange and study sessions on Backlog, supporting skill development and community building among developers in Saga Prefecture.">Japan Backlog User Groupの佐賀支部です。Backlogに関する情報交換や勉強会を開催し、佐賀県内の開発者のスキル向上とコミュニティ形成を支援しています。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/jbug/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://jbug.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass" data-en="Connpass">Connpass</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title" data-ja="ハックツハッカソンコミュニティ" data-en="Hack'z HACKATHON Community">ハックツハッカソンコミュニティ</h3>
-              <p class="community-card__description" data-ja="ハッカソンを通じて技術者同士の交流とスキルアップを図るコミュニティです。様々なレベルの参加者が集まり、協力してプロダクトを開発する場を提供しています。" data-en="A community that promotes networking and skill development among engineers through hackathons. We provide opportunities for participants of various levels to collaborate and develop products together.">ハッカソンを通じて技術者同士の交流とスキルアップを図るコミュニティです。様々なレベルの参加者が集まり、協力してプロダクトを開発する場を提供しています。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/hakkutsu-hackathon/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://hackz-community.doorkeeper.jp/" class="link" target="_blank" rel="noopener" data-ja="Doorkeeper" data-en="Doorkeeper">Doorkeeper</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title" data-ja="ローコードツール勉強会" data-en="Low Code Study Session">ローコードツール勉強会</h3>
-              <p class="community-card__description" data-ja="主にマイクロソフトのローコードツールであるPower Platformのうち、Power Apps、Power Automate、Power BIを主に勉強する集まりです。基本はオンラインでの勉強会ですが、MAIC 佐賀での勉強会開催も予定しています。" data-en="A study group focusing mainly on Microsoft's low-code tools from Power Platform, including Power Apps, Power Automate, and Power BI. Primarily online study sessions with plans for in-person meetings at MAIC Saga.">主にマイクロソフトのローコードツールであるPower Platformのうち、Power Apps、Power Automate、Power BIを主に勉強する集まりです。基本はオンラインでの勉強会ですが、MAIC 佐賀での勉強会開催も予定しています。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/power-bi/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://saga-hagakure.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass" data-en="Connpass">Connpass</a>
-              </div>
-            </div>
-            
-            <div class="community-card">
-              <h3 class="community-card__title" data-ja="CoderDojo さが" data-en="CoderDojo Saga">CoderDojo さが</h3>
-              <p class="community-card__description" data-ja="月1回、4歳児～高校生を対象としたプログラミング勉強会と、その保護者を対象としたICTリテラシーの勉強会を開催しています。参加費無料。各種子供向けコンテストの応募支援も行っています。" data-en="We hold monthly programming study sessions for children aged 4 to high school students, as well as ICT literacy study sessions for their parents. Free participation. We also support applications for various children's contests.">月1回、4歳児～高校生を対象としたプログラミング勉強会と、その保護者を対象としたICTリテラシーの勉強会を開催しています。参加費無料。各種子供向けコンテストの応募支援も行っています。</p>
-              <div class="community-card__links">
-                <a href="https://www.saga-smart.jp/community/coderdojosaga/" class="link" target="_blank" rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
-                <a href="https://www.facebook.com/CoderDojoSAGA/?locale=ja_JP" class="link" target="_blank" rel="noopener" data-ja="Facebook" data-en="Facebook">Facebook</a>
-                <a href="https://peatix.com/group/10488940" class="link" target="_blank" rel="noopener" data-ja="Peatix" data-en="Peatix">Peatix</a>
-              </div>
-            </div>
-          </div>
-          
+    <section id="target-audience" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title" data-ja="対象者" data-en="Target Audience">対象者</h2>
+        <p data-ja="SAGA IT Community Day は、佐賀県内で IT やデジタルに興味のある方なら、どなたでも参加できる学びのイベントです。"
+          data-en="SAGA IT Community Day is a learning event open to anyone interested in IT and digital in Saga Prefecture.">
+          SAGA IT Community Day は、佐賀県内で IT やデジタルに興味のある方なら、どなたでも参加できる学びのイベントです。</p>
+        <p data-ja="次のような方におすすめです。" data-en="We recommend this event for the following people:">次のような方におすすめです。</p>
+        <ul class="list">
+          <li data-ja="佐賀県内で IT・デジタルの仕事に関わる方（開発・デザイン・AI・システム運用、ローコード／ノーコード、データ分析・業務改善など）"
+            data-en="Those working in IT and digital in Saga Prefecture (development, design, AI, system operations, low-code/no-code, data analysis, business improvement, etc.)">
+            佐賀県内で IT・デジタルの仕事に関わる方<br><span
+              style="opacity: 0.8; font-size: 0.9em;">（開発・デザイン・AI・システム運用、ローコード／ノーコード、データ分析・業務改善など）</span></li>
+          <li data-ja="これから IT を学びたい県内の学生・社会人（高校・高専・大学の学生、独学中の方、プログラミングが好きな方）"
+            data-en="Students and working adults in the prefecture who want to learn IT (high school, technical college, university students, self-learners, those who like programming)">
+            これから IT を学びたい県内の学生・社会人<br><span
+              style="opacity: 0.8; font-size: 0.9em;">（高校・高専・大学の学生、独学中の方、プログラミングが好きな方）</span></li>
+          <li
+            data-ja="県内企業・団体・自治体・教育機関でデジタル活用に取り組みたい方（業務改善、データ活用、IT 導入、Google Workspace や GAS、Power Platform をもっと使いこなしたい担当者 など）"
+            data-en="Those working on digital utilization at local companies, organizations, municipalities, and educational institutions (managers interested in business improvement, data utilization, IT introduction, those who want to make better use of Google Workspace, GAS, and Power Platform, etc.)">
+            県内企業・団体・自治体・教育機関でデジタル活用に取り組みたい方<br><span style="opacity: 0.8; font-size: 0.9em;">（業務改善、データ活用、IT 導入、Google
+              Workspace や GAS、Power Platform をもっと使いこなしたい担当者 など）</span></li>
+          <li data-ja="地域の学習会・創作活動に関わる方（プログラミング教室、勉強会 など）"
+            data-en="Those involved in local study groups and creative activities (programming classes, study sessions, etc.)">
+            地域の学習会・創作活動に関わる方<br><span style="opacity: 0.8; font-size: 0.9em;">（プログラミング教室、勉強会 など）</span></li>
+          <li data-ja="プログラミング／AI／IoT などを趣味や副業として始めてみたい個人の方"
+            data-en="Individuals who want to start programming, AI, IoT, etc. as a hobby or side job">プログラミング／AI／IoT
+            などを趣味や副業として始めてみたい個人の方</li>
+          <li data-ja="日常の仕事や地域活動で「IT に課題がある」「同じ悩みを持つ人とつながりたい」と感じている方"
+            data-en="Those who feel 'there are IT issues' in their daily work or local activities, or 'want to connect with people who have the same concerns'">
+            日常の仕事や地域活動で「IT に課題がある」「同じ悩みを持つ人とつながりたい」と感じている方</li>
+          <li data-ja="「コミュニティはちょっと怖い」「人脈づくりは苦手だけど、ゆるく関わってみたい」という方／「IT コミュニティってどんなところ？」と雰囲気を知りたい方"
+            data-en="Those who think 'communities are a bit scary' or 'I'm not good at networking, but I'd like to get involved casually' / Those who want to know what IT communities are like">
+            「コミュニティはちょっと怖い」「人脈づくりは苦手だけど、ゆるく関わってみたい」という方<br>／「IT コミュニティってどんなところ？」と雰囲気を知りたい方</li>
+        </ul>
+        <p style="margin-top: 1.5rem;" data-ja="佐賀県内で「ちょっと面白そうだな」と思ったら、ぜひお越しください。"
+          data-en="If you think 'this looks interesting' in Saga Prefecture, please come.">
+          佐賀県内で「ちょっと面白そうだな」と思ったら、ぜひお越しください。</p>
+        <p data-ja="年齢・経験・職業は問いません。" data-en="Age, experience, and occupation are not a concern.">年齢・経験・職業は問いません。</p>
+      </div>
+    </section>
+
+    <section id="benefits" class="section">
+      <div class="container">
+        <h2 class="section__title" data-ja="参加すると" data-en="What You'll Gain">参加すると</h2>
+        <ul class="list">
+          <li data-ja="ITやデジタル技術について、初心者でもわかりやすく学べる（難しい話だけではなく、身近な視点で理解できる内容を用意しています）"
+            data-en="Learn IT and digital technologies in an easy-to-understand way, even for beginners (we provide content that can be understood from familiar perspectives, not just difficult topics)">
+            ITやデジタル技術について、初心者でもわかりやすく学べる<br><span
+              style="opacity: 0.8; font-size: 0.9em;">難しい話だけではなく、身近な視点で理解できる内容を用意しています。</span></li>
+          <li data-ja="佐賀県内のITの取り組みや学びの環境がよくわかる（地域でどんな活動が行われているか、どこから参加できるかを把握できます）"
+            data-en="Understand IT initiatives and learning environments in Saga Prefecture (you can see what activities are happening in the region and where you can participate)">
+            佐賀県内のITの取り組みや学びの環境がよくわかる<br><span
+              style="opacity: 0.8; font-size: 0.9em;">地域でどんな活動が行われているか、どこから参加できるかを把握できます。</span></li>
+          <li data-ja="「まずはやってみる」の一歩が踏み出せる（小さな発表や共有も歓迎される場で、学んだことを誰かに伝える体験ができます）"
+            data-en="Take the first step to 'just try it out' (in a welcoming environment for small presentations and sharing, you can experience sharing what you've learned with others)">
+            「まずはやってみる」の一歩が踏み出せる<br><span
+              style="opacity: 0.8; font-size: 0.9em;">小さな発表や共有も歓迎される場で、学んだことを誰かに伝える体験ができます。</span></li>
+          <li data-ja="100回参加するより、1回登壇する価値に出会える（完成した成果でなくても、途中経過や小さな工夫が誰かの学びを生みます）"
+            data-en="Discover the value of speaking once rather than attending 100 times (even if it's not a completed result, sharing progress or small ideas can create learning for others)">
+            100回参加するより、1回登壇する価値に出会える<br><span
+              style="opacity: 0.8; font-size: 0.9em;">完成した成果でなくても、途中経過や小さな工夫が誰かの学びを生みます。</span></li>
+          <li data-ja="初心者でも安心して参加できる雰囲気（気軽に相談できる環境で、ITに不慣れでも安心して過ごせます）"
+            data-en="A welcoming atmosphere where beginners can participate with confidence (in an environment where you can easily ask questions, you can feel comfortable even if you're not familiar with IT)">
+            初心者でも安心して参加できる雰囲気<br><span style="opacity: 0.8; font-size: 0.9em;">気軽に相談できる環境で、ITに不慣れでも安心して過ごせます。</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="schedule" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title" data-ja="スケジュール" data-en="Schedule (Overview)">スケジュール</h2>
+        <div class="cards">
+          <article class="card">
+            <h3 class="card__eyebrow">Day1</h3>
+            <h4 class="card__title" data-ja="交流・展示・コミュニティ紹介" data-en="Networking, Exhibition, Community Introduction">
+              交流・展示・コミュニティ紹介</h4>
+            <p class="card__meta" data-ja="メイン会場：LIGHTHOUSE / サブ会場：スマート街なかラボ"
+              data-en="Main Venue: LIGHTHOUSE / Sub Venue: Smart Machinaka Lab">メイン会場：LIGHTHOUSE / サブ会場：スマート街なかラボ</p>
+            <ul class="list">
+              <li data-ja="11:00 開会・オープニング / 開場" data-en="11:00 Opening ceremony / Doors open">11:00 開会・オープニング / 開場</li>
+              <li data-ja="11:10–12:00 コミュニティ紹介（前半）" data-en="11:10–12:00 Community introduction (first half)">
+                11:10–12:00 コミュニティ紹介（前半）</li>
+              <li data-ja="13:00–15:30 コミュニティ紹介（後半）＋ハンズオン"
+                data-en="13:00–15:30 Community introduction (second half) + Hands-on">13:00–15:30 コミュニティ紹介（後半）＋ハンズオン
+              </li>
+              <li data-ja="15:30–16:00 まとめ・クロージング" data-en="15:30–16:00 Summary & Closing">15:30–16:00 まとめ・クロージング</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3 class="card__eyebrow">Day2</h3>
+            <h4 class="card__title" data-ja="アイデアソン＋交流" data-en="Ideathon + Networking">アイデアソン＋交流</h4>
+            <ul class="list">
+              <li data-ja="13:00–13:30 受付・オープニング" data-en="13:00–13:30 Registration & Opening">13:00–13:30 受付・オープニング
+              </li>
+              <li data-ja="13:30–13:50 趣旨説明・インプット" data-en="13:30–13:50 Purpose explanation & Input">13:30–13:50
+                趣旨説明・インプット</li>
+              <li data-ja="13:50–15:30 アイデア創出・ブラッシュアップ" data-en="13:50–15:30 Idea generation & Refinement">13:50–15:30
+                アイデア創出・ブラッシュアップ</li>
+              <li data-ja="15:30–16:30 成果発表" data-en="15:30–16:30 Results presentation">15:30–16:30 成果発表</li>
+            </ul>
+          </article>
         </div>
-      </section>
+        <p class="section__action"><a href="schedule.html" class="btn btn--ghost" data-ja="詳細なタイムテーブル"
+            data-en="Detailed Timetable">詳細なタイムテーブル</a></p>
+      </div>
+    </section>
 
-      <section id="staff" class="section">
-        <div class="container">
-          <h2 class="section__title" data-ja="運営" data-en="Staff">運営</h2>
-          <div class="person-cards">
-            <!-- スタッフカードの例（まだ登録者がいない場合はコメントアウト）
+    <section id="venue" class="section">
+      <div class="container">
+        <h2 class="section__title" data-ja="会場" data-en="Venue Information">会場</h2>
+
+        <div class="venue-info">
+          <div class="venue-card">
+            <h3 class="venue-card__title" data-ja="メイン会場：LIGHTHOUSE" data-en="Main Venue: LIGHTHOUSE">メイン会場：LIGHTHOUSE
+            </h3>
+            <p class="venue-card__description">
+              <a href="https://me-lighthouse.com/" target="_blank" rel="noopener">LIGHTHOUSE</a>
+            </p>
+            <p class="venue-card__address">〒840-0813 佐賀県佐賀市唐人２丁目４−２ 2F TSUITACHI COFFEE 2F</p>
+            <ul class="list">
+              <li><strong data-ja="Day1（2/21 土）：" data-en="Day1 (2/21 Sat): ">Day1（2/21 土）：</strong>11:00～18:00（7時間）
+              </li>
+              <li><strong data-ja="Day2（2/22 日）：" data-en="Day2 (2/22 Sun): ">Day2（2/22 日）：</strong>11:00～16:00（5時間）
+              </li>
+            </ul>
+          </div>
+
+          <div class="venue-card">
+            <h3 class="venue-card__title" data-ja="サブ会場：スマート街なかラボ" data-en="Sub Venue: Smart Machinaka Lab">
+              サブ会場：スマート街なかラボ</h3>
+            <p class="venue-card__description">
+              <a href="https://rdi.or.jp/smartmachinakalab" target="_blank" rel="noopener">スマート街なかラボ</a>
+            </p>
+            <p class="venue-card__address">〒840-0826 佐賀県佐賀市白山２丁目３−１６</p>
+            <ul class="list">
+              <li><strong data-ja="Day1（2/21 土）：" data-en="Day1 (2/21 Sat): ">Day1（2/21 土）：</strong>11:00～16:00（5時間）
+              </li>
+            </ul>
+            <p class="note" data-ja="メイン会場とサブ会場の間は約280m、徒歩5分程度です。"
+              data-en="The distance between the main venue and sub venue is approximately 280m, about a 5-minute walk.">
+              メイン会場とサブ会場の間は約280m、徒歩5分程度です。</p>
+          </div>
+        </div>
+
+        <div class="map-container">
+          <h3 class="map-title" data-ja="会場地図" data-en="Venue Map">会場地図</h3>
+          <div class="map-wrapper">
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=130.2980,33.2540,130.3010,33.2580&layer=mapnik&marker=33.256137,130.299557"
+              width="100%" height="400" frameborder="0" style="border: 1px solid #ccc; border-radius: 8px;">
+            </iframe>
+          </div>
+          <p class="map-note">
+            <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=33.257187%2C130.299606%3B33.255132%2C130.299831#map=18/33.256137/130.299557"
+              target="_blank" rel="noopener" data-ja="大きな地図で見る" data-en="View larger map">大きな地図で見る</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="community" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</h2>
+        <p data-ja="佐賀県下で活動しているITコミュニティが集まります。各コミュニティの活動内容や特徴をご紹介します。"
+          data-en="IT communities active in Saga Prefecture will gather. We will introduce the activities and characteristics of each community.">
+          佐賀県下で活動しているITコミュニティが集まります。各コミュニティの活動内容や特徴をご紹介します。</p>
+
+        <div class="community-view-toggle">
+          <span data-ja="表示形式：" data-en="View: ">表示形式：</span>
+          <button id="view-card-btn" class="btn btn--ghost btn--view-toggle active"
+            onclick="toggleCommunityView('card')">
+            <span data-ja="カード" data-en="Card">カード</span>
+          </button>
+          <button id="view-list-btn" class="btn btn--ghost btn--view-toggle" onclick="toggleCommunityView('list')">
+            <span data-ja="リスト" data-en="List">リスト</span>
+          </button>
+        </div>
+
+        <div id="communities-grid" class="communities-grid">
+          <div class="community-card">
+            <h3 class="community-card__title">ALL-IN GAS</h3>
+            <p class="community-card__description"
+              data-ja="Google Apps Script（GAS）を活用した業務効率化や自動化について学ぶコミュニティです。初心者から上級者まで、GASの可能性を一緒に探求していきます。"
+              data-en="A community focused on learning about business efficiency and automation using Google Apps Script (GAS). We explore the possibilities of GAS together, from beginners to advanced users.">
+              Google Apps Script（GAS）を活用した業務効率化や自動化について学ぶコミュニティです。初心者から上級者まで、GASの可能性を一緒に探求していきます。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/allingas/" class="link" target="_blank" rel="noopener"
+                data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://sites.google.com/view/all-in-gas/all-in-gas" class="link" target="_blank" rel="noopener"
+                data-ja="Google Sites" data-en="Google Sites">Google Sites</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title">GABAITech</h3>
+            <p class="community-card__description"
+              data-ja="佐賀県のIT技術者コミュニティです。最新技術の情報共有や勉強会を通じて、地域のIT技術者のスキルアップと交流を促進しています。"
+              data-en="An IT engineer community in Saga Prefecture. We promote skill development and networking among local IT engineers through information sharing and study sessions on the latest technologies.">
+              佐賀県のIT技術者コミュニティです。最新技術の情報共有や勉強会を通じて、地域のIT技術者のスキルアップと交流を促進しています。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/GABAITech/" class="link" target="_blank" rel="noopener"
+                data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://gabaitech.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass"
+                data-en="Connpass">Connpass</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title" data-ja="HAGAKURE PROGRAMMING塾"
+              data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</h3>
+            <p class="community-card__description"
+              data-ja="佐賀県内で世代・職業を超えて同志とともに楽しく成長するプログラミング塾です。みんな塾生、みんな先生。アウトプットすることで「自分の学び」を「みんなの学び」へ。"
+              data-en="A programming school in Saga Prefecture where people of all generations and professions grow together as comrades. Everyone is both a student and a teacher, sharing knowledge through output.">
+              佐賀県内で世代・職業を超えて同志とともに楽しく成長するプログラミング塾です。みんな塾生、みんな先生。アウトプットすることで「自分の学び」を「みんなの学び」へ。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/hagakure-programming/" class="link" target="_blank"
+                rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://hagakurepgm.net/" class="link" target="_blank" rel="noopener" data-ja="公式サイト"
+                data-en="Official Site">公式サイト</a>
+              <a href="https://x.com/hagakurepgm" class="link" target="_blank" rel="noopener" data-ja="X"
+                data-en="X">X</a>
+              <a href="https://www.facebook.com/profile.php?id=100085682160764" class="link" target="_blank"
+                rel="noopener" data-ja="Facebook" data-en="Facebook">Facebook</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title" data-ja="JAWS-UG佐賀" data-en="JAWS-UG Saga">JAWS-UG佐賀</h3>
+            <p class="community-card__description"
+              data-ja="Amazon Web Services（AWS）のユーザグループ、JAWS-UGの佐賀支部です。AWSに興味がある方、初心者の方も大歓迎。佐賀県内外からの参加者を歓迎しています。"
+              data-en="JAWS-UG Saga is the Saga branch of JAWS-UG, an Amazon Web Services (AWS) user group. We welcome AWS enthusiasts and beginners from inside and outside Saga Prefecture.">
+              Amazon Web Services（AWS）のユーザグループ、JAWS-UGの佐賀支部です。AWSに興味がある方、初心者の方も大歓迎。佐賀県内外からの参加者を歓迎しています。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/jaws-ug-saga/" class="link" target="_blank" rel="noopener"
+                data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://sites.google.com/view/jawsug-saga" class="link" target="_blank" rel="noopener"
+                data-ja="Google Sites" data-en="Google Sites">Google Sites</a>
+              <a href="https://jawsug-saga.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass"
+                data-en="Connpass">Connpass</a>
+              <a href="https://www.facebook.com/profile.php?id=100071851614379" class="link" target="_blank"
+                rel="noopener" data-ja="Facebook" data-en="Facebook">Facebook</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title" data-ja="JBUG佐賀" data-en="JBUG Saga">JBUG佐賀</h3>
+            <p class="community-card__description"
+              data-ja="Japan Backlog User Groupの佐賀支部です。Backlogに関する情報交換や勉強会を開催し、佐賀県内の開発者のスキル向上とコミュニティ形成を支援しています。"
+              data-en="Japan Backlog User Group Saga branch. We organize information exchange and study sessions on Backlog, supporting skill development and community building among developers in Saga Prefecture.">
+              Japan Backlog User Groupの佐賀支部です。Backlogに関する情報交換や勉強会を開催し、佐賀県内の開発者のスキル向上とコミュニティ形成を支援しています。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/jbug/" class="link" target="_blank" rel="noopener"
+                data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://jbug.connpass.com/" class="link" target="_blank" rel="noopener" data-ja="Connpass"
+                data-en="Connpass">Connpass</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title" data-ja="ハックツハッカソンコミュニティ" data-en="Hack'z HACKATHON Community">
+              ハックツハッカソンコミュニティ</h3>
+            <p class="community-card__description"
+              data-ja="ハッカソンを通じて技術者同士の交流とスキルアップを図るコミュニティです。様々なレベルの参加者が集まり、協力してプロダクトを開発する場を提供しています。"
+              data-en="A community that promotes networking and skill development among engineers through hackathons. We provide opportunities for participants of various levels to collaborate and develop products together.">
+              ハッカソンを通じて技術者同士の交流とスキルアップを図るコミュニティです。様々なレベルの参加者が集まり、協力してプロダクトを開発する場を提供しています。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/hakkutsu-hackathon/" class="link" target="_blank"
+                rel="noopener" data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://hackz-community.doorkeeper.jp/" class="link" target="_blank" rel="noopener"
+                data-ja="Doorkeeper" data-en="Doorkeeper">Doorkeeper</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title" data-ja="ローコードツール勉強会" data-en="Low Code Study Session">ローコードツール勉強会</h3>
+            <p class="community-card__description"
+              data-ja="主にマイクロソフトのローコードツールであるPower Platformのうち、Power Apps、Power Automate、Power BIを主に勉強する集まりです。基本はオンラインでの勉強会ですが、MAIC 佐賀での勉強会開催も予定しています。"
+              data-en="A study group focusing mainly on Microsoft's low-code tools from Power Platform, including Power Apps, Power Automate, and Power BI. Primarily online study sessions with plans for in-person meetings at MAIC Saga.">
+              主にマイクロソフトのローコードツールであるPower Platformのうち、Power Apps、Power Automate、Power
+              BIを主に勉強する集まりです。基本はオンラインでの勉強会ですが、MAIC 佐賀での勉強会開催も予定しています。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/power-bi/" class="link" target="_blank" rel="noopener"
+                data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://saga-hagakure.connpass.com/" class="link" target="_blank" rel="noopener"
+                data-ja="Connpass" data-en="Connpass">Connpass</a>
+            </div>
+          </div>
+
+          <div class="community-card">
+            <h3 class="community-card__title" data-ja="CoderDojo さが" data-en="CoderDojo Saga">CoderDojo さが</h3>
+            <p class="community-card__description"
+              data-ja="月1回、4歳児～高校生を対象としたプログラミング勉強会と、その保護者を対象としたICTリテラシーの勉強会を開催しています。参加費無料。各種子供向けコンテストの応募支援も行っています。"
+              data-en="We hold monthly programming study sessions for children aged 4 to high school students, as well as ICT literacy study sessions for their parents. Free participation. We also support applications for various children's contests.">
+              月1回、4歳児～高校生を対象としたプログラミング勉強会と、その保護者を対象としたICTリテラシーの勉強会を開催しています。参加費無料。各種子供向けコンテストの応募支援も行っています。</p>
+            <div class="community-card__links">
+              <a href="https://www.saga-smart.jp/community/coderdojosaga/" class="link" target="_blank" rel="noopener"
+                data-ja="Webサイト" data-en="Website">Webサイト</a>
+              <a href="https://www.facebook.com/CoderDojoSAGA/?locale=ja_JP" class="link" target="_blank" rel="noopener"
+                data-ja="Facebook" data-en="Facebook">Facebook</a>
+              <a href="https://peatix.com/group/10488940" class="link" target="_blank" rel="noopener" data-ja="Peatix"
+                data-en="Peatix">Peatix</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="staff" class="section">
+      <div class="container">
+        <h2 class="section__title" data-ja="運営" data-en="Staff">運営</h2>
+        <div class="person-cards">
+          <!-- スタッフカードの例（まだ登録者がいない場合はコメントアウト）
             使い方：
             - 画像がある場合: <img src="images/staff/example.jpg" alt="スタッフ名" /> の行を有効化
             - 画像がない場合: <img>タグを削除するとデフォルトの人型アイコンが表示されます
@@ -719,246 +852,326 @@
               </div>
             </div>
             -->
-            <div class="person-card">
-              <div class="person-card__avatar">
-                <img src="picture/page/staff/shibao.png" alt="柴尾 哲也 / Tetsuya Shibao" />
-                <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3"/>
-                  <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/>
-                </svg>
-              </div>
-              <h3 class="person-card__name" data-ja="柴尾 哲也" data-en="Tetsuya Shibao">柴尾 哲也</h3>
-              <p class="person-card__role" data-ja="全体企画" data-en="Overall Planning">全体企画</p>
-              <p class="person-card__comment" data-ja="2年目になり、去年から若干バージョンアップしました" data-en="This is the second year, and we've made some upgrades from last year.">2年目になり、去年から若干バージョンアップしました</p>
-              <div class="person-card__sns">
-                <a href="https://my.prairie.cards/u/midnight480" target="_blank" rel="noopener" aria-label="Website" class="sns-link sns-link--website">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                </a>
-              </div>
-              <div class="person-card__communities">
-                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
-                <ul class="person-card__communities-list">
-                  <li data-ja="JAWS-UG佐賀 ★" data-en="JAWS-UG Saga ★">JAWS-UG佐賀 ★</li>
-                  <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</li>
-                  <li data-ja="ローコードツール勉強会" data-en="Low Code Study Session">ローコードツール勉強会</li>
-                  <li>ALL-IN GAS</li>
-                  <li data-ja="CoderDojoさが ★" data-en="CoderDojo Saga ★">CoderDojoさが ★</li>
-                  <li data-ja="ハックツハッカソン" data-en="Hack'z HACKATHON">ハックツハッカソン</li>
-                  <li data-ja="JBUG佐賀" data-en="JBUG Saga">JBUG佐賀</li>
-                </ul>
-                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
-              </div>
+          <div class="person-card">
+            <div class="person-card__avatar">
+              <img src="picture/page/staff/shibao.png" alt="柴尾 哲也 / Tetsuya Shibao" />
+              <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3" />
+                <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4"
+                  fill="none" opacity="0.3" />
+              </svg>
             </div>
-            
-            <div class="person-card">
-              <div class="person-card__avatar">
-                <img src="picture/page/staff/inoue.png" alt="井上 司 / Tsukasa Inoue" />
-                <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3"/>
-                  <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/>
+            <h3 class="person-card__name" data-ja="柴尾 哲也" data-en="Tetsuya Shibao">柴尾 哲也</h3>
+            <p class="person-card__role" data-ja="全体企画" data-en="Overall Planning">全体企画</p>
+            <p class="person-card__comment" data-ja="2年目になり、去年から若干バージョンアップしました"
+              data-en="This is the second year, and we've made some upgrades from last year.">2年目になり、去年から若干バージョンアップしました
+            </p>
+            <div class="person-card__sns">
+              <a href="https://my.prairie.cards/u/midnight480" target="_blank" rel="noopener" aria-label="Website"
+                class="sns-link sns-link--website">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                 </svg>
-              </div>
-              <h3 class="person-card__name" data-ja="井上 司" data-en="Tsukasa Inoue">井上 司</h3>
-              <p class="person-card__role" data-ja="配信" data-en="Streaming">配信</p>
-              <div class="person-card__communities">
-                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
-                <ul class="person-card__communities-list">
-                  <li data-ja="ローコードツール勉強会 ★" data-en="Low Code Study Session ★">ローコードツール勉強会 ★</li>
-                </ul>
-                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
-              </div>
+              </a>
             </div>
-            
-            <div class="person-card">
-              <div class="person-card__avatar">
-                <img src="picture/page/staff/furukawa.png" alt="古川 格 / Itaru Furukawa" />
-                <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3"/>
-                  <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/>
-                </svg>
-              </div>
-              <h3 class="person-card__name" data-ja="古川 格" data-en="Itaru Furukawa">古川 格</h3>
-              <p class="person-card__role" data-ja="会場" data-en="Venue">会場</p>
-              <p class="person-card__comment" data-ja="Python大好き❤️" data-en="I love Python ❤️">Python大好き❤️</p>
-              <div class="person-card__sns">
-                <a href="https://hagakurepgm.net/" target="_blank" rel="noopener" aria-label="Website" class="sns-link sns-link--website">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                </a>
-              </div>
-              <div class="person-card__communities">
-                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
-                <ul class="person-card__communities-list">
-                  <li data-ja="HAGAKURE PROGRAMMING塾 ★" data-en="HAGAKURE PROGRAMMING Cram School ★">HAGAKURE PROGRAMMING塾 ★</li>
-                  <li>ALL-IN GAS</li>
-                </ul>
-                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
-              </div>
+            <div class="person-card__communities">
+              <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+              <ul class="person-card__communities-list">
+                <li data-ja="JAWS-UG佐賀 ★" data-en="JAWS-UG Saga ★">JAWS-UG佐賀 ★</li>
+                <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾
+                </li>
+                <li data-ja="ローコードツール勉強会" data-en="Low Code Study Session">ローコードツール勉強会</li>
+                <li>ALL-IN GAS</li>
+                <li data-ja="CoderDojoさが ★" data-en="CoderDojo Saga ★">CoderDojoさが ★</li>
+                <li data-ja="ハックツハッカソン" data-en="Hack'z HACKATHON">ハックツハッカソン</li>
+                <li data-ja="JBUG佐賀" data-en="JBUG Saga">JBUG佐賀</li>
+              </ul>
+              <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの"
+                data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
             </div>
-            
-            <div class="person-card">
-              <div class="person-card__avatar">
-                <img src="picture/page/staff/tashiro.png" alt="田代 拓也 / Takuya Tashiro" />
-                <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3"/>
-                  <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/>
-                </svg>
-              </div>
-              <h3 class="person-card__name" data-ja="田代 拓也" data-en="Takuya Tashiro">田代 拓也</h3>
-              <p class="person-card__role" data-ja="会場" data-en="Venue">会場</p>
-              <p class="person-card__comment" data-ja="生成AIやプログラミングを学んでいきたいです。" data-en="I want to learn generative AI and programming.">生成AIやプログラミングを学んでいきたいです。</p>
-              <div class="person-card__sns">
-                <a href="https://coderdojosaga-ekimaechuo.connpass.com/event/380000/" target="_blank" rel="noopener" aria-label="Website" class="sns-link sns-link--website">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                </a>
-              </div>
-              <div class="person-card__communities">
-                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
-                <ul class="person-card__communities-list">
-                  <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</li>
-                  <li data-ja="CoderDojoさが ★" data-en="CoderDojo Saga ★">CoderDojoさが ★</li>
-                  <li>ALL-IN GAS</li>
-                </ul>
-                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
-              </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-card__avatar">
+              <img src="picture/page/staff/inoue.png" alt="井上 司 / Tsukasa Inoue" />
+              <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3" />
+                <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4"
+                  fill="none" opacity="0.3" />
+              </svg>
             </div>
-            
-            <div class="person-card">
-              <div class="person-card__avatar">
-                <img src="picture/page/staff/terawaki.png" alt="寺脇 千登勢 / Chitose Terawaki" />
-                <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3"/>
-                  <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/>
+            <h3 class="person-card__name" data-ja="井上 司" data-en="Tsukasa Inoue">井上 司</h3>
+            <p class="person-card__role" data-ja="配信" data-en="Streaming">配信</p>
+            <div class="person-card__communities">
+              <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+              <ul class="person-card__communities-list">
+                <li data-ja="ローコードツール勉強会 ★" data-en="Low Code Study Session ★">ローコードツール勉強会 ★</li>
+              </ul>
+              <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの"
+                data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-card__avatar">
+              <img src="picture/page/staff/furukawa.png" alt="古川 格 / Itaru Furukawa" />
+              <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3" />
+                <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4"
+                  fill="none" opacity="0.3" />
+              </svg>
+            </div>
+            <h3 class="person-card__name" data-ja="古川 格" data-en="Itaru Furukawa">古川 格</h3>
+            <p class="person-card__role" data-ja="会場" data-en="Venue">会場</p>
+            <p class="person-card__comment" data-ja="Python大好き❤️" data-en="I love Python ❤️">Python大好き❤️</p>
+            <div class="person-card__sns">
+              <a href="https://hagakurepgm.net/" target="_blank" rel="noopener" aria-label="Website"
+                class="sns-link sns-link--website">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                 </svg>
-              </div>
-              <h3 class="person-card__name" data-ja="寺脇 千登勢" data-en="Chitose Terawaki">寺脇 千登勢</h3>
-              <p class="person-card__role" data-ja="配信" data-en="Streaming">配信</p>
-              <p class="person-card__comment" data-ja="可愛いものを模索中♪" data-en="Looking for cute things ♪">可愛いものを模索中♪</p>
-              <div class="person-card__communities">
-                <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
-                <ul class="person-card__communities-list">
-                  <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾</li>
-                </ul>
-                <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの" data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
-              </div>
+              </a>
+            </div>
+            <div class="person-card__communities">
+              <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+              <ul class="person-card__communities-list">
+                <li data-ja="HAGAKURE PROGRAMMING塾 ★" data-en="HAGAKURE PROGRAMMING Cram School ★">HAGAKURE PROGRAMMING塾
+                  ★</li>
+                <li>ALL-IN GAS</li>
+              </ul>
+              <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの"
+                data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-card__avatar">
+              <img src="picture/page/staff/tashiro.png" alt="田代 拓也 / Takuya Tashiro" />
+              <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3" />
+                <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4"
+                  fill="none" opacity="0.3" />
+              </svg>
+            </div>
+            <h3 class="person-card__name" data-ja="田代 拓也" data-en="Takuya Tashiro">田代 拓也</h3>
+            <p class="person-card__role" data-ja="会場" data-en="Venue">会場</p>
+            <p class="person-card__comment" data-ja="生成AIやプログラミングを学んでいきたいです。"
+              data-en="I want to learn generative AI and programming.">生成AIやプログラミングを学んでいきたいです。</p>
+            <div class="person-card__sns">
+              <a href="https://coderdojosaga-ekimaechuo.connpass.com/event/380000/" target="_blank" rel="noopener"
+                aria-label="Website" class="sns-link sns-link--website">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                </svg>
+              </a>
+            </div>
+            <div class="person-card__communities">
+              <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+              <ul class="person-card__communities-list">
+                <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾
+                </li>
+                <li data-ja="CoderDojoさが ★" data-en="CoderDojo Saga ★">CoderDojoさが ★</li>
+                <li>ALL-IN GAS</li>
+              </ul>
+              <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの"
+                data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-card__avatar">
+              <img src="picture/page/staff/terawaki.png" alt="寺脇 千登勢 / Chitose Terawaki" />
+              <svg class="person-card__avatar-icon" width="120" height="120" viewBox="0 0 120 120" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="40" r="25" fill="currentColor" opacity="0.3" />
+                <path d="M30 100 C30 80, 45 70, 60 70 C75 70, 90 80, 90 100" stroke="currentColor" stroke-width="4"
+                  fill="none" opacity="0.3" />
+              </svg>
+            </div>
+            <h3 class="person-card__name" data-ja="寺脇 千登勢" data-en="Chitose Terawaki">寺脇 千登勢</h3>
+            <p class="person-card__role" data-ja="配信" data-en="Streaming">配信</p>
+            <p class="person-card__comment" data-ja="可愛いものを模索中♪" data-en="Looking for cute things ♪">可愛いものを模索中♪</p>
+            <div class="person-card__communities">
+              <span class="person-card__communities-label" data-ja="コミュニティ" data-en="Communities">コミュニティ</span>
+              <ul class="person-card__communities-list">
+                <li data-ja="HAGAKURE PROGRAMMING塾" data-en="HAGAKURE PROGRAMMING Cram School">HAGAKURE PROGRAMMING塾
+                </li>
+              </ul>
+              <p class="person-card__communities-note" data-ja="★は運営の連絡先に含まれているもの"
+                data-en="★ indicates communities included in the organizer's contact information">★は運営の連絡先に含まれているもの</p>
             </div>
           </div>
         </div>
-      </section>
-
-      <section id="faq" class="section section--alt">
-        <div class="container">
-          <h2 class="section__title" data-ja="FAQ" data-en="Frequently Asked Questions">FAQ</h2>
-          <details class="faq">
-            <summary data-ja="SAGA IT Community Day実行委員会とはなんですか？" data-en="What is the SAGA IT Community Day Executive Committee?">SAGA IT Community Day実行委員会とはなんですか？</summary>
-            <p data-ja="表示されている各コミュニティから有志を募って本イベントを企画・運営しています。" data-en="We are planning and operating this event with volunteers from each of the participating communities.">表示されている各コミュニティから有志を募って本イベントを企画・運営しています。</p>
-          </details>
-          <details class="faq">
-            <summary data-ja="参加に必要なスキルレベルはありますか？" data-en="What skill level is required to participate?">参加に必要なスキルレベルはありますか？</summary>
-            <p data-ja="いいえ、初心者から上級者まで、すべてのレベルの方が参加できます。" data-en="No, participants of all levels, from beginners to advanced, are welcome.">いいえ、初心者から上級者まで、すべてのレベルの方が参加できます。</p>
-          </details>
-          <details class="faq">
-            <summary data-ja="ノートPCは必要ですか？" data-en="Is a notebook PC required?">ノートPCは必要ですか？</summary>
-            <p data-ja="セッションによっては必要な場合があります。貸出の予定はありません。詳細はスケジュールをご確認ください。" data-en="It may be required for some sessions. We do not plan to provide loan devices. Please check the schedule for details.">セッションによっては必要な場合があります。貸出の予定はありません。詳細はスケジュールをご確認ください。</p>
-          </details>
-          <details class="faq">
-            <summary data-ja="参加費以外に費用は掛かりますか？" data-en="Are there any costs in addition to the participation fee?">参加費以外に費用は掛かりますか？</summary>
-            <p data-ja="懇親会に参加される方は別途掛かります。" data-en="Additional costs apply for those participating in the networking event.">懇親会に参加される方は別途掛かります。</p>
-          </details>
-          <details class="faq">
-            <summary data-ja="自家用車で行ってもいいですか？" data-en="Can I come by private car?">自家用車で行ってもいいですか？</summary>
-            <p data-ja="はい、可能です。LIGHTHOUSEには無料駐車場はございませんが、提携のコインパーキング「唐人南パーキング」をご利用いただけます。" data-en="Yes, it is possible. LIGHTHOUSE does not have free parking, but you can use the affiliated coin parking 'Tonjin Minami Parking'.">はい、可能です。LIGHTHOUSEには無料駐車場はございませんが、提携のコインパーキング「唐人南パーキング」をご利用いただけます。</p>
-            <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-              <li data-ja="料金：1時間100円、400円で12時間まで駐車可能" data-en="Fee: 100 yen per hour, 400 yen for up to 12 hours">料金：1時間100円、400円で12時間まで駐車可能</li>
-              <li data-ja="会場から徒歩2分" data-en="2 minutes walk from the venue">会場から徒歩2分</li>
-              <li data-ja="最大400台駐車可能" data-en="Maximum 400 cars can be parked">最大400台駐車可能</li>
-            </ul>
-            <p style="margin-top: 0.5rem;">
-              <a href="https://me-lighthouse.com/index.php?parking" target="_blank" rel="noopener" data-ja="詳細はLIGHTHOUSEの駐車場案内をご確認ください" data-en="Please check LIGHTHOUSE's parking information for details">詳細はLIGHTHOUSEの駐車場案内をご確認ください</a>
-            </p>
-          </details>
-          <details class="faq">
-            <summary data-ja="入退場自由とはどういうことですか？" data-en="What does free entry and exit mean?">入退場自由とはどういうことですか？</summary>
-            <p data-ja="来場する時間、お帰りになる時間は自由ということです。ただしハンズオンなど途中参加ではゴールまで行けない可能性がありますのでご注意ください。" data-en="You are free to arrive and leave at any time. However, please note that if you join midway through hands-on sessions, you may not be able to complete them.">来場する時間、お帰りになる時間は自由ということです。ただしハンズオンなど途中参加ではゴールまで行けない可能性がありますのでご注意ください。</p>
-          </details>
-          <details class="faq">
-            <summary data-ja="AWS Builders Cardsとはなんですか？" data-en="What are AWS Builders Cards?">AWS Builders Cardsとはなんですか？</summary>
-            <p data-ja="AWSドイツのゲーム業界に携わるエンジニアが制作したサービスやアーキテクチャを楽しみながら学べるトレーディングカードゲームです。AWSのサービスを知らない方でも、ゲームを通してAWSのサービスやアーキテクチャを学ぶことができます。AWSのサービスやアーキテクチャを知らない方は、この機会にAWSのサービスやアーキテクチャを学んでみてください。" data-en="A trading card game created by engineers in the German gaming industry that allows you to learn about AWS services and architectures while having fun. Even if you don't know about AWS services, you can learn about AWS services and architectures through the game. If you don't know about AWS services or architectures, this is a great opportunity to learn about them.">AWSドイツのゲーム業界に携わるエンジニアが制作したサービスやアーキテクチャを楽しみながら学べるトレーディングカードゲームです。AWSのサービスを知らない方でも、ゲームを通してAWSのサービスやアーキテクチャを学ぶことができます。AWSのサービスやアーキテクチャを知らない方は、この機会にAWSのサービスやアーキテクチャを学んでみてください。</p>
-            <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
-              <tr>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="対象年齢" data-en="Target Age">対象年齢</strong></td>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="12才以上" data-en="12 years and older">12才以上</td>
-              </tr>
-              <tr>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1チームのプレーヤー" data-en="Players per team">1チームのプレーヤー</strong></td>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="2-4名" data-en="2-4 players">2-4名</td>
-              </tr>
-              <tr>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1回のプレイ時間" data-en="Play time per game">1回のプレイ時間</strong></td>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="20分ほど" data-en="About 20 minutes">20分ほど</td>
-              </tr>
-            </table>
-            <p style="margin-top: 1rem;">
-              <a href="https://aws.amazon.com/jp/builders-flash/202405/japanese-builder-cards/" target="_blank" rel="noopener" data-ja="(参考)楽しみながら学べる AWS BuilderCards の遊び方、そして日本語化に込めた思い" data-en="(Reference) How to play AWS BuilderCards and the thoughts behind the Japanese translation">(参考)楽しみながら学べる AWS BuilderCards の遊び方、そして日本語化に込めた思い</a>
-            </p>
-          </details>
-          <details class="faq">
-            <summary data-ja="プロジェクトテーマパークとはなんですか？" data-en="What is Project Theme Park?">プロジェクトテーマパークとはなんですか？</summary>
-            <p data-ja="株式会社ヌーラボが制作した、テーマパークを題材にしたプロジェクト管理を学べるボードゲームです。それぞれに役割が開始前に与えられ、チームでテーマパークを建設します。" data-en="A board game created by Nulab Inc. that teaches project management using a theme park as a theme. Each player is given a role at the start, and teams work together to build a theme park.">株式会社ヌーラボが制作した、テーマパークを題材にしたプロジェクト管理を学べるボードゲームです。それぞれに役割が開始前に与えられ、チームでテーマパークを建設します。</p>
-            <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
-              <tr>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="対象年齢" data-en="Target Age">対象年齢</strong></td>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="13才以上" data-en="13 years and older">13才以上</td>
-              </tr>
-              <tr>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1チームのプレーヤー" data-en="Players per team">1チームのプレーヤー</strong></td>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="3-5名" data-en="3-5 players">3-5名</td>
-              </tr>
-              <tr>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1回のプレイ時間" data-en="Play time per game">1回のプレイ時間</strong></td>
-                <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="30-40分ほど" data-en="About 30-40 minutes">30-40分ほど</td>
-              </tr>
-            </table>
-            <p style="margin-top: 1rem;">
-              <a href="https://backlog.com/ja/project-theme-park/" target="_blank" rel="noopener" data-ja="(参考)プロジェクトテーマパーク" data-en="(Reference) Project Theme Park">(参考)プロジェクトテーマパーク</a>
-            </p>
-          </details>
-          <details class="faq">
-            <summary data-ja="参加登録はいつ開始しますか？" data-en="When will registration start?">参加登録はいつ開始しますか？</summary>
-            <p data-ja="スピーカー決定後、順次ご案内します。" data-en="We will inform you sequentially after the speakers are decided.">スピーカー決定後、順次ご案内します。</p>
-          </details>
-          <details class="faq">
-            <summary data-ja="Wi‑Fiは利用できますか？" data-en="Is Wi-Fi available?">Wi‑Fiは利用できますか？</summary>
-            <p data-ja="会場内でご利用いただけます。詳細は当日ご案内します。" data-en="It is available at the venue. Details will be provided on the day.">会場内でご利用いただけます。詳細は当日ご案内します。</p>
-          </details>
-        </div>
-      </section>
-
-      <section id="contact" class="section section--highlight">
-        <div class="container">
-          <h2 class="section__title" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</h2>
-          <p data-ja="ご質問・ご相談はフォームよりお寄せください。" data-en="Please send your questions and inquiries through the form.">ご質問・ご相談はフォームよりお寄せください。</p>
-          <p class="section__action"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfz9pEFnVoDymKg7veYX1kHj_7ZHOoYwg7McpFXnWayVqPn6A/viewform?usp=header" class="btn btn--primary" data-ja="お問い合わせフォーム" data-en="Contact Form" target="_blank" rel="noopener">お問い合わせフォーム</a></p>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div style="margin-bottom: 1rem;">
-          <a href="https://www.youtube.com/@SAGAITCommunityDay-w1j" target="_blank" rel="noopener" style="margin-right: 1rem; color: var(--color-link); text-decoration: none;">YouTube</a>
-          <a href="https://x.com/intent/tweet?text=https://saga-it-community-day.github.io/%20%23sitcd" target="_blank" rel="noopener" style="color: var(--color-link); text-decoration: none;">Xでシェア</a>
-        </div>
-        <div style="margin-bottom: 1rem;">
-          <a href="index.html" style="color: var(--color-link); text-decoration: none;">2026年 Winter</a>
-          <span style="margin: 0 0.5rem; color: var(--color-text); opacity: 0.7;">|</span>
-          <a href="../2025-winter/index.html" style="color: var(--color-link); text-decoration: none;">2025年 Winter</a>
-        </div>
-        <p class="small">© 2026 Saga IT Community Day Committee. All rights reserved.</p>
-        <p class="small" style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">
-          本サイトのコンテンツは著作権法により保護されています。無断での複製・改ざん・転載を禁じます。
-        </p>
       </div>
-    </footer>
-    <script async src="https://cloud.umami.is/script.js" data-website-id="51ed458a-3ba3-416d-89a1-ee8902399e78"></script>
-  </body>
-  </html>
+    </section>
+
+    <section id="faq" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title" data-ja="FAQ" data-en="Frequently Asked Questions">FAQ</h2>
+        <details class="faq">
+          <summary data-ja="SAGA IT Community Day実行委員会とはなんですか？"
+            data-en="What is the SAGA IT Community Day Executive Committee?">SAGA IT Community Day実行委員会とはなんですか？
+          </summary>
+          <p data-ja="表示されている各コミュニティから有志を募って本イベントを企画・運営しています。"
+            data-en="We are planning and operating this event with volunteers from each of the participating communities.">
+            表示されている各コミュニティから有志を募って本イベントを企画・運営しています。</p>
+        </details>
+        <details class="faq">
+          <summary data-ja="参加に必要なスキルレベルはありますか？" data-en="What skill level is required to participate?">
+            参加に必要なスキルレベルはありますか？</summary>
+          <p data-ja="いいえ、初心者から上級者まで、すべてのレベルの方が参加できます。"
+            data-en="No, participants of all levels, from beginners to advanced, are welcome.">
+            いいえ、初心者から上級者まで、すべてのレベルの方が参加できます。</p>
+        </details>
+        <details class="faq">
+          <summary data-ja="ノートPCは必要ですか？" data-en="Is a notebook PC required?">ノートPCは必要ですか？</summary>
+          <p data-ja="セッションによっては必要な場合があります。貸出の予定はありません。詳細はスケジュールをご確認ください。"
+            data-en="It may be required for some sessions. We do not plan to provide loan devices. Please check the schedule for details.">
+            セッションによっては必要な場合があります。貸出の予定はありません。詳細はスケジュールをご確認ください。</p>
+        </details>
+        <details class="faq">
+          <summary data-ja="参加費以外に費用は掛かりますか？" data-en="Are there any costs in addition to the participation fee?">
+            参加費以外に費用は掛かりますか？</summary>
+          <p data-ja="懇親会に参加される方は別途掛かります。"
+            data-en="Additional costs apply for those participating in the networking event.">懇親会に参加される方は別途掛かります。</p>
+        </details>
+        <details class="faq">
+          <summary data-ja="自家用車で行ってもいいですか？" data-en="Can I come by private car?">自家用車で行ってもいいですか？</summary>
+          <p data-ja="はい、可能です。LIGHTHOUSEには無料駐車場はございませんが、提携のコインパーキング「唐人南パーキング」をご利用いただけます。"
+            data-en="Yes, it is possible. LIGHTHOUSE does not have free parking, but you can use the affiliated coin parking 'Tonjin Minami Parking'.">
+            はい、可能です。LIGHTHOUSEには無料駐車場はございませんが、提携のコインパーキング「唐人南パーキング」をご利用いただけます。</p>
+          <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+            <li data-ja="料金：1時間100円、400円で12時間まで駐車可能" data-en="Fee: 100 yen per hour, 400 yen for up to 12 hours">
+              料金：1時間100円、400円で12時間まで駐車可能</li>
+            <li data-ja="会場から徒歩2分" data-en="2 minutes walk from the venue">会場から徒歩2分</li>
+            <li data-ja="最大400台駐車可能" data-en="Maximum 400 cars can be parked">最大400台駐車可能</li>
+          </ul>
+          <p style="margin-top: 0.5rem;">
+            <a href="https://me-lighthouse.com/index.php?parking" target="_blank" rel="noopener"
+              data-ja="詳細はLIGHTHOUSEの駐車場案内をご確認ください"
+              data-en="Please check LIGHTHOUSE's parking information for details">詳細はLIGHTHOUSEの駐車場案内をご確認ください</a>
+          </p>
+        </details>
+        <details class="faq">
+          <summary data-ja="入退場自由とはどういうことですか？" data-en="What does free entry and exit mean?">入退場自由とはどういうことですか？</summary>
+          <p data-ja="来場する時間、お帰りになる時間は自由ということです。ただしハンズオンなど途中参加ではゴールまで行けない可能性がありますのでご注意ください。"
+            data-en="You are free to arrive and leave at any time. However, please note that if you join midway through hands-on sessions, you may not be able to complete them.">
+            来場する時間、お帰りになる時間は自由ということです。ただしハンズオンなど途中参加ではゴールまで行けない可能性がありますのでご注意ください。</p>
+        </details>
+        <details class="faq">
+          <summary data-ja="AWS Builders Cardsとはなんですか？" data-en="What are AWS Builders Cards?">AWS Builders
+            Cardsとはなんですか？</summary>
+          <p data-ja="AWSドイツのゲーム業界に携わるエンジニアが制作したサービスやアーキテクチャを楽しみながら学べるトレーディングカードゲームです。AWSのサービスを知らない方でも、ゲームを通してAWSのサービスやアーキテクチャを学ぶことができます。AWSのサービスやアーキテクチャを知らない方は、この機会にAWSのサービスやアーキテクチャを学んでみてください。"
+            data-en="A trading card game created by engineers in the German gaming industry that allows you to learn about AWS services and architectures while having fun. Even if you don't know about AWS services, you can learn about AWS services and architectures through the game. If you don't know about AWS services or architectures, this is a great opportunity to learn about them.">
+            AWSドイツのゲーム業界に携わるエンジニアが制作したサービスやアーキテクチャを楽しみながら学べるトレーディングカードゲームです。AWSのサービスを知らない方でも、ゲームを通してAWSのサービスやアーキテクチャを学ぶことができます。AWSのサービスやアーキテクチャを知らない方は、この機会にAWSのサービスやアーキテクチャを学んでみてください。
+          </p>
+          <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="対象年齢"
+                  data-en="Target Age">対象年齢</strong></td>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="12才以上"
+                data-en="12 years and older">12才以上</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1チームのプレーヤー"
+                  data-en="Players per team">1チームのプレーヤー</strong></td>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="2-4名" data-en="2-4 players">
+                2-4名</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1回のプレイ時間"
+                  data-en="Play time per game">1回のプレイ時間</strong></td>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="20分ほど"
+                data-en="About 20 minutes">20分ほど</td>
+            </tr>
+          </table>
+          <p style="margin-top: 1rem;">
+            <a href="https://aws.amazon.com/jp/builders-flash/202405/japanese-builder-cards/" target="_blank"
+              rel="noopener" data-ja="(参考)楽しみながら学べる AWS BuilderCards の遊び方、そして日本語化に込めた思い"
+              data-en="(Reference) How to play AWS BuilderCards and the thoughts behind the Japanese translation">(参考)楽しみながら学べる
+              AWS BuilderCards の遊び方、そして日本語化に込めた思い</a>
+          </p>
+        </details>
+        <details class="faq">
+          <summary data-ja="プロジェクトテーマパークとはなんですか？" data-en="What is Project Theme Park?">プロジェクトテーマパークとはなんですか？</summary>
+          <p data-ja="株式会社ヌーラボが制作した、テーマパークを題材にしたプロジェクト管理を学べるボードゲームです。それぞれに役割が開始前に与えられ、チームでテーマパークを建設します。"
+            data-en="A board game created by Nulab Inc. that teaches project management using a theme park as a theme. Each player is given a role at the start, and teams work together to build a theme park.">
+            株式会社ヌーラボが制作した、テーマパークを題材にしたプロジェクト管理を学べるボードゲームです。それぞれに役割が開始前に与えられ、チームでテーマパークを建設します。</p>
+          <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="対象年齢"
+                  data-en="Target Age">対象年齢</strong></td>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="13才以上"
+                data-en="13 years and older">13才以上</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1チームのプレーヤー"
+                  data-en="Players per team">1チームのプレーヤー</strong></td>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="3-5名" data-en="3-5 players">
+                3-5名</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);"><strong data-ja="1回のプレイ時間"
+                  data-en="Play time per game">1回のプレイ時間</strong></td>
+              <td style="padding: 0.5rem; border: 1px solid var(--color-border);" data-ja="30-40分ほど"
+                data-en="About 30-40 minutes">30-40分ほど</td>
+            </tr>
+          </table>
+          <p style="margin-top: 1rem;">
+            <a href="https://backlog.com/ja/project-theme-park/" target="_blank" rel="noopener"
+              data-ja="(参考)プロジェクトテーマパーク" data-en="(Reference) Project Theme Park">(参考)プロジェクトテーマパーク</a>
+          </p>
+        </details>
+        <details class="faq">
+          <summary data-ja="参加登録はいつ開始しますか？" data-en="When will registration start?">参加登録はいつ開始しますか？</summary>
+          <p data-ja="スピーカー決定後、順次ご案内します。" data-en="We will inform you sequentially after the speakers are decided.">
+            スピーカー決定後、順次ご案内します。</p>
+        </details>
+        <details class="faq">
+          <summary data-ja="Wi‑Fiは利用できますか？" data-en="Is Wi-Fi available?">Wi‑Fiは利用できますか？</summary>
+          <p data-ja="会場内でご利用いただけます。詳細は当日ご案内します。"
+            data-en="It is available at the venue. Details will be provided on the day.">会場内でご利用いただけます。詳細は当日ご案内します。</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="contact" class="section section--highlight">
+      <div class="container">
+        <h2 class="section__title" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</h2>
+        <p data-ja="ご質問・ご相談はフォームよりお寄せください。" data-en="Please send your questions and inquiries through the form.">
+          ご質問・ご相談はフォームよりお寄せください。</p>
+        <p class="section__action"><a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfz9pEFnVoDymKg7veYX1kHj_7ZHOoYwg7McpFXnWayVqPn6A/viewform?usp=header"
+            class="btn btn--primary" data-ja="お問い合わせフォーム" data-en="Contact Form" target="_blank"
+            rel="noopener">お問い合わせフォーム</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div style="margin-bottom: 1rem;">
+        <a href="https://www.youtube.com/@SAGAITCommunityDay-w1j" target="_blank" rel="noopener"
+          style="margin-right: 1rem; color: var(--color-link); text-decoration: none;">YouTube</a>
+        <a href="https://x.com/intent/tweet?text=https://saga-it-community-day.github.io/%20%23sitcd" target="_blank"
+          rel="noopener" style="color: var(--color-link); text-decoration: none;">Xでシェア</a>
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <a href="index.html" style="color: var(--color-link); text-decoration: none;">2026年 Winter</a>
+        <span style="margin: 0 0.5rem; color: var(--color-text); opacity: 0.7;">|</span>
+        <a href="../2025-winter/index.html" style="color: var(--color-link); text-decoration: none;">2025年 Winter</a>
+      </div>
+      <p class="small">© 2026 Saga IT Community Day Committee. All rights reserved.</p>
+      <p class="small" style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">
+        本サイトのコンテンツは著作権法により保護されています。無断での複製・改ざん・転載を禁じます。
+      </p>
+    </div>
+  </footer>
+  <script async src="https://cloud.umami.is/script.js" data-website-id="51ed458a-3ba3-416d-89a1-ee8902399e78"></script>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com data:; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.openstreetmap.org https://www.youtube.com; connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev;">
+    <meta name="copyright" content="© 2026 Saga IT Community Day Committee. All rights reserved.">
+    <title>配信 (Live) | SAGA IT Community Day</title>
+    <meta name="description" content="SAGA IT Community Day 2026 Live Stream" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+        // 改ざん防止・著作権保護
+        (function () {
+            'use strict';
+            // 右クリック無効化
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+                return false;
+            });
+            // キーボードショートカット無効化
+            document.addEventListener('keydown', function (e) {
+                if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            // テキスト選択の制限
+            document.addEventListener('selectstart', function (e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        })();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // ダークモードの初期化
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            // 言語の初期化
+            const savedLang = localStorage.getItem('language') || 'ja';
+            document.documentElement.setAttribute('data-lang', savedLang);
+
+            window.toggleTheme = function () {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeButton();
+            };
+
+            window.toggleLanguage = function () {
+                const currentLang = document.documentElement.getAttribute('data-lang');
+                const newLang = currentLang === 'ja' ? 'en' : 'ja';
+                document.documentElement.setAttribute('data-lang', newLang);
+                localStorage.setItem('language', newLang);
+                updateLanguageButton();
+                updateContent();
+            };
+
+            function updateThemeButton() {
+                const theme = document.documentElement.getAttribute('data-theme');
+                const button = document.getElementById('theme-toggle');
+                if (button) {
+                    button.textContent = theme === 'light' ? '🌙' : '☀️';
+                    button.setAttribute('aria-label', theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え');
+                }
+            }
+
+            function updateLanguageButton() {
+                const lang = document.documentElement.getAttribute('data-lang');
+                const button = document.getElementById('language-toggle');
+                if (button) {
+                    button.textContent = lang === 'ja' ? 'EN' : '日本語';
+                }
+            }
+
+            function updateContent() {
+                const lang = document.documentElement.getAttribute('data-lang');
+                const elements = document.querySelectorAll('[data-ja], [data-en]');
+                elements.forEach(element => {
+                    if (element.id === 'viewer-count') return;
+                    const text = element.getAttribute(`data-${lang}`);
+                    if (text) element.textContent = text;
+                });
+            }
+
+            // ハンバーガーメニュー
+            const hamburgerToggle = document.getElementById('hamburger-toggle');
+            const mainNav = document.getElementById('main-nav');
+            let overlay = null;
+
+            function createOverlay() {
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'nav-overlay';
+                    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;';
+                    document.body.appendChild(overlay);
+                    overlay.addEventListener('click', closeMenu);
+                }
+                return overlay;
+            }
+
+            function closeMenu() {
+                if (hamburgerToggle && mainNav) {
+                    hamburgerToggle.setAttribute('aria-expanded', 'false');
+                    mainNav.classList.remove('nav--open');
+                    hamburgerToggle.classList.remove('hamburger--active');
+                    if (overlay) overlay.style.display = 'none';
+                }
+            }
+
+            if (hamburgerToggle && mainNav) {
+                createOverlay();
+                hamburgerToggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const isExpanded = hamburgerToggle.getAttribute('aria-expanded') === 'true';
+                    hamburgerToggle.setAttribute('aria-expanded', !isExpanded);
+                    mainNav.classList.toggle('nav--open');
+                    hamburgerToggle.classList.toggle('hamburger--active');
+                    if (!isExpanded && window.innerWidth <= 768) {
+                        overlay.style.display = 'block';
+                    } else {
+                        overlay.style.display = 'none';
+                    }
+                });
+
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 768) closeMenu();
+                });
+            }
+
+            updateThemeButton();
+            updateLanguageButton();
+            updateContent();
+        });
+    </script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="index.html">SITCD</a>
+            <button class="hamburger" id="hamburger-toggle" aria-label="メニューを開く" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="main-nav">
+                <a href="index.html#about" data-ja="概要" data-en="About">概要</a>
+                <a href="index.html#schedule" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+                <a href="index.html#registration" data-ja="参加登録" data-en="Registration">参加登録</a>
+                <a href="index.html#venue" data-ja="会場" data-en="Venue">会場</a>
+                <a href="index.html#community" data-ja="参加コミュニティ紹介" data-en="Participating Communities">参加コミュニティ紹介</a>
+                <a href="index.html#staff" data-ja="運営" data-en="Staff">運営</a>
+                <a href="index.html#faq" data-ja="FAQ" data-en="FAQ">FAQ</a>
+                <a href="tourism.html" data-ja="観光" data-en="Tourism">観光</a>
+                <a href="live.html" class="active" data-ja="配信" data-en="Live">配信</a>
+                <a href="index.html#contact" class="btn btn--nav" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+                <button id="language-toggle" class="btn btn--ghost" onclick="toggleLanguage()">EN</button>
+                <button id="theme-toggle" class="btn btn--ghost" onclick="toggleTheme()"
+                    aria-label="ダークモードに切り替え">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container" style="text-align: center;">
+                <h2 class="section__title" data-ja="配信" data-en="Live Stream">配信</h2>
+                <div class="video-container" style="text-align: center; margin-bottom: 2rem;">
+                    <!-- 
+                YouTubeのエラー 153 回避のため、originを設定しています。
+             -->
+                    <iframe width="560" height="315"
+                        src="https://www.youtube.com/embed/icKySJ-wZcc?origin=https://saga-it-community-day.github.io"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+                        style="max-width: 100%; height: auto; aspect-ratio: 560 / 315;"></iframe>
+                    <p style="margin-top: 1rem;">
+                        <span data-ja="2025年の配信はこちら: " data-en="2025 Live Stream: ">2025年の配信はこちら: </span>
+                        <a href="https://youtube.com/live/cmgR6tcuz4U" target="_blank" rel="noopener">2025 Archive</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem 0; font-size: 0.9em; opacity: 0.8;">
+        <div class="container">
+            <p>&copy; 2026 Saga IT Community Day Committee. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
